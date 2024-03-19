@@ -1,4 +1,5 @@
 import {
+  BeforeFind,
   BeforeSave,
   Column,
   Model,
@@ -9,6 +10,7 @@ import {
   generateBinaryUUID,
   generateUUIDFieldOptions,
   hashPassword,
+  overrideHookOptions,
 } from '../utils/index';
 
 @Table
@@ -51,6 +53,11 @@ export class User extends Model {
     allowNull: true,
   })
   picture?: string;
+
+  @BeforeFind
+  static BeforeFindUUID(options: any) {
+    overrideHookOptions(options);
+  }
 
   @BeforeSave
   static async BeforeSaveHook(instance: User) {

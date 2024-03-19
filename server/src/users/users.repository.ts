@@ -32,13 +32,18 @@ export class UsersRepository {
   getOneByCondition(
     options: FindOptions<Attributes<User>>,
   ): Promise<User | null> {
-    return this.userModel.findOne({ ...options });
+    return this.userModel.findOne({
+      ...options,
+      attributes: { exclude: ['password'] },
+    });
   }
 
   create(
     body: UserCreationAttributes,
     options?: CreateOptions<Attributes<User>>,
   ) {
-    return this.userModel.create(body, { ...options });
+    return this.userModel.create(body, {
+      ...options,
+    });
   }
 }

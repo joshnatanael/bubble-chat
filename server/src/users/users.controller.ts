@@ -1,6 +1,18 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dtos/create-user.dto';
+import {
+  UpdateStatusBodyDto,
+  UpdateStatusParamDto,
+} from './dtos/update-status.dto';
+import {
+  UpdatePasswordBodyDto,
+  UpdatePasswordParamDto,
+} from './dtos/update-password.dto';
+import {
+  UpdateProfileBodyDto,
+  UpdateProfileParamDto,
+} from './dtos/update-profile.dto';
+import { CreateUserBodyDto } from './dtos/create-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -14,8 +26,44 @@ export class UsersController {
   }
 
   @Post('')
-  async create(@Body() body: CreateUserDto) {
+  async create(@Body() body: CreateUserBodyDto) {
     const users = await this.usersService.createUser(body);
+
+    return users;
+  }
+
+  @Put('/:userId')
+  async updateProfile(
+    @Param() param: UpdateProfileParamDto,
+    @Body() body: UpdateProfileBodyDto,
+  ) {
+    const users = await this.usersService.updateProfile(param.userId, body);
+
+    return users;
+  }
+
+  @Put('/:userId/status')
+  async updateStatus(
+    @Param() param: UpdateStatusParamDto,
+    @Body() body: UpdateStatusBodyDto,
+  ) {
+    const users = await this.usersService.updateStatus(
+      param.userId,
+      body.status,
+    );
+
+    return users;
+  }
+
+  @Put('/:userId/password')
+  async updatePassword(
+    @Param() param: UpdatePasswordParamDto,
+    @Body() body: UpdatePasswordBodyDto,
+  ) {
+    const users = await this.usersService.updatePassword(
+      param.userId,
+      body.password,
+    );
 
     return users;
   }

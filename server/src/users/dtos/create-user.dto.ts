@@ -1,7 +1,7 @@
 import * as Joi from 'joi';
 import { JoiSchema } from 'nestjs-joi';
 
-export class CreateUserDto {
+export class CreateUserBodyDto {
   @JoiSchema(Joi.string().required())
   username: string;
 
