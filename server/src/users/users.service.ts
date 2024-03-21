@@ -7,10 +7,30 @@ import { UsersRepository } from './users.repository';
 import { User } from './users.model';
 import { CreateUserBodyDto } from './dtos/create-user.dto';
 import { UpdateProfileBodyDto } from './dtos/update-profile.dto';
+import { Op, Transaction } from 'sequelize';
+import { comparePassword } from 'src/utils/compare-password';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UsersService {
-  constructor(private usersRepository: UsersRepository) {}
+  private tokenSecret: string;
+  private refreshTokenExp: string;
+  private accessTokenExp: string;
+
+  constructor(
+    private usersRepository: UsersRepository,
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
+  ) {
+    this.tokenSecret = this.configService.get('auth.token_secret')!;
+    this.refreshTokenExp = this.configService.get(
+      'auth.refresh_token_expiration',
+    )!;
+    this.accessTokenExp = this.configService.get(
+      'auth.access_token_expiration',
+    )!;
+  }
 
   getAll(): Promise<User[]> {
     return this.usersRepository.getAll();
@@ -107,5 +127,91 @@ export class UsersService {
     user.set(userProfile);
 
     return user.save();
+  }
+
+  generateAccessToken(userId: string): string {
+    const payload = { userId };
+    return `Bearer ${this.jwtService.sign(payload, {
+      secret: this.tokenSecret,
+      expiresIn: this.accessTokenExp,
+    })}`;
+  }
+
+  generateRefreshToken(userId: string): string {
+    const payload = { userId };
+    return this.jwtService.sign(payload, {
+      secret: this.tokenSecret,
+      expiresIn: this.refreshTokenExp,
+    });
+  }
+
+  async updateRefreshTokenByUserId(
+    userId: string,
+    refreshToken?: string | null,
+    transaction?: Transaction,
+  ) {
+    const user = await this.getOneById(userId);
+
+    user.set({ refreshToken });
+
+    user.save({ transaction });
+  }
+
+  async invalidateRefreshToken(
+    userId: string,
+    transaction?: Transaction,
+  ): Promise<string> {
+    const refreshToken = this.generateRefreshToken(userId);
+
+    await this.updateRefreshTokenByUserId(userId, refreshToken, transaction);
+
+    return refreshToken;
+  }
+
+  async login(
+    credential: string,
+    password: string,
+  ): Promise<{ user: User; refreshToken: string; accessToken: string }> {
+    const user = await this.usersRepository.getOneByCondition({
+      where: {
+        [Op.or]: {
+          username: credential,
+          email: credential,
+        },
+      },
+      attributes: {
+        include: ['password'],
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException({
+        code: 'InvalidCredentials',
+        message: 'Incorrect user credentials or password',
+      });
+    }
+
+    if (!user.password) {
+      throw new NotFoundException({
+        code: 'InvalidCredentials',
+        message: 'Incorrect user credentials or password',
+      });
+    }
+
+    const isCorrectPassword = await comparePassword(password, user.password);
+
+    if (!isCorrectPassword) {
+      throw new NotFoundException({
+        code: 'InvalidCredentials',
+        message: 'Incorrect user credentials or password',
+      });
+    }
+
+    delete user.dataValues.password;
+
+    const refreshToken = await this.invalidateRefreshToken(user.id);
+    const accessToken = this.generateAccessToken(user.id);
+
+    return { user, refreshToken, accessToken };
   }
 }

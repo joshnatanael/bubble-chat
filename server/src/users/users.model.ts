@@ -54,6 +54,9 @@ export class User extends Model {
   })
   picture?: string;
 
+  @Column
+  refreshToken?: string;
+
   @BeforeFind
   static BeforeFindUUID(options: any) {
     overrideHookOptions(options);

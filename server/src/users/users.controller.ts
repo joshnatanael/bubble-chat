@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Res } from '@nestjs/common';
 import { UsersService } from './users.service';
 import {
   UpdateStatusBodyDto,
@@ -13,6 +13,10 @@ import {
   UpdateProfileParamDto,
 } from './dtos/update-profile.dto';
 import { CreateUserBodyDto } from './dtos/create-user.dto';
+import { LoginUserBodyDto } from './dtos/login-user.dto';
+import { sendRefreshToken } from 'src/utils/send-refresh-token';
+import { Response } from 'express';
+import { sendIsLoggedIn } from 'src/utils/send-is-logged-in';
 
 @Controller('users')
 export class UsersController {
@@ -66,5 +70,21 @@ export class UsersController {
     );
 
     return users;
+  }
+
+  @Post('/login')
+  async login(
+    @Body() body: LoginUserBodyDto,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const { user, refreshToken, accessToken } = await this.usersService.login(
+      body.credential,
+      body.password,
+    );
+
+    sendRefreshToken(response, refreshToken);
+    sendIsLoggedIn(response, true);
+
+    return { accessToken, user };
   }
 }

@@ -33,8 +33,8 @@ export class UsersRepository {
     options: FindOptions<Attributes<User>>,
   ): Promise<User | null> {
     return this.userModel.findOne({
-      ...options,
       attributes: { exclude: ['password'] },
+      ...options,
     });
   }
 
