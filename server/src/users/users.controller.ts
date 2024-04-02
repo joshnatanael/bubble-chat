@@ -5,7 +5,6 @@ import {
   Param,
   Post,
   Put,
-  Res,
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
@@ -23,9 +22,6 @@ import {
 } from './dtos/update-profile.dto';
 import { CreateUserBodyDto } from './dtos/create-user.dto';
 import { LoginUserBodyDto } from './dtos/login-user.dto';
-import { sendRefreshToken } from 'src/utils/send-refresh-token';
-import { Response } from 'express';
-import { sendIsLoggedIn } from 'src/utils/send-is-logged-in';
 import { AccessTokenGuard } from './access-token.guard';
 
 @Controller('users')
@@ -87,18 +83,12 @@ export class UsersController {
   }
 
   @Post('/login')
-  async login(
-    @Body() body: LoginUserBodyDto,
-    @Res({ passthrough: true }) response: Response,
-  ) {
+  async login(@Body() body: LoginUserBodyDto) {
     const { user, refreshToken, accessToken } = await this.usersService.login(
       body.credential,
       body.password,
     );
 
-    sendRefreshToken(response, refreshToken);
-    sendIsLoggedIn(response, true);
-
-    return { accessToken, user };
+    return { accessToken, user, refreshToken };
   }
 }
