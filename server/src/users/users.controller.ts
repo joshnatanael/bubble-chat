@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Put, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import {
   UpdateStatusBodyDto,
@@ -17,12 +26,14 @@ import { LoginUserBodyDto } from './dtos/login-user.dto';
 import { sendRefreshToken } from 'src/utils/send-refresh-token';
 import { Response } from 'express';
 import { sendIsLoggedIn } from 'src/utils/send-is-logged-in';
+import { AccessTokenGuard } from './access-token.guard';
 
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @Get('')
+  @UseGuards(AccessTokenGuard)
   async findAll() {
     const users = await this.usersService.getAll();
 
@@ -37,6 +48,7 @@ export class UsersController {
   }
 
   @Put('/:userId')
+  @UseGuards(AccessTokenGuard)
   async updateProfile(
     @Param() param: UpdateProfileParamDto,
     @Body() body: UpdateProfileBodyDto,
@@ -47,6 +59,7 @@ export class UsersController {
   }
 
   @Put('/:userId/status')
+  @UseGuards(AccessTokenGuard)
   async updateStatus(
     @Param() param: UpdateStatusParamDto,
     @Body() body: UpdateStatusBodyDto,
@@ -60,6 +73,7 @@ export class UsersController {
   }
 
   @Put('/:userId/password')
+  @UseGuards(AccessTokenGuard)
   async updatePassword(
     @Param() param: UpdatePasswordParamDto,
     @Body() body: UpdatePasswordBodyDto,

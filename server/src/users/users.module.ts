@@ -5,10 +5,11 @@ import { UsersRepository } from './users.repository';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from './users.model';
 import { JwtModule } from '@nestjs/jwt';
+import { AccessTokenStrategy } from './access-token.strategy';
 
 @Module({
   imports: [SequelizeModule.forFeature([User]), JwtModule.register({})],
-  providers: [UsersService, UsersRepository],
+  providers: [UsersService, UsersRepository, AccessTokenStrategy],
   controllers: [UsersController],
 })
 export class UsersModule {}
