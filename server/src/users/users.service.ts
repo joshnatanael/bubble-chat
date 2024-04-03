@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { User } from './users.model';
@@ -213,5 +214,22 @@ export class UsersService {
     const accessToken = this.generateAccessToken(user.id);
 
     return { user, refreshToken, accessToken };
+  }
+
+  async refreshToken(
+    user: User,
+    currentRefreshToken: string,
+  ): Promise<{ refreshToken: string; accessToken: string }> {
+    if (currentRefreshToken !== user.refreshToken) {
+      throw new UnauthorizedException({
+        code: 'Unauthorized',
+        message: 'JWT token is invalid or has expired',
+      });
+    }
+
+    const refreshToken = await this.invalidateRefreshToken(user.id);
+    const accessToken = this.generateAccessToken(user.id);
+
+    return { refreshToken, accessToken };
   }
 }

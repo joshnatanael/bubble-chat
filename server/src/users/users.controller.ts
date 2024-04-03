@@ -5,6 +5,7 @@ import {
   Param,
   Post,
   Put,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
@@ -23,6 +24,9 @@ import {
 import { CreateUserBodyDto } from './dtos/create-user.dto';
 import { LoginUserBodyDto } from './dtos/login-user.dto';
 import { AccessTokenGuard } from './access-token.guard';
+import { CurrentUser } from './decorators/current-user.decorator';
+import { User } from './users.model';
+import { RefreshTokenAuthorizationGuard } from './refresh-token-authorization.guard';
 
 @Controller('users')
 export class UsersController {
@@ -90,5 +94,24 @@ export class UsersController {
     );
 
     return { accessToken, user, refreshToken };
+  }
+
+  @Get('/refresh-token')
+  @UseGuards(RefreshTokenAuthorizationGuard)
+  async refreshToken(@CurrentUser() user: User, @Req() req: Request) {
+    const currentRefreshToken = req.headers['authorization'] as
+      | string
+      | undefined;
+
+    const parsedRefreshToken =
+      currentRefreshToken?.replace(/Bearer /, '') || '';
+    console.log(user);
+
+    const { refreshToken, accessToken } = await this.usersService.refreshToken(
+      user,
+      parsedRefreshToken,
+    );
+
+    return { refreshToken, accessToken };
   }
 }
