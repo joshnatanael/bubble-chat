@@ -1,7 +1,10 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JsonWebTokenError } from '@nestjs/jwt';
+import { Injectable, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { JsonWebTokenError } from 'jsonwebtoken';
 
+export function UseAccessTokenGuard() {
+  return UseGuards(RefreshTokenGuard);
+}
 @Injectable()
 export class RefreshTokenGuard extends AuthGuard('refresh_token') {
   handleRequest(err: any, user: any, info: any, context: any, status: any) {

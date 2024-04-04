@@ -27,6 +27,7 @@ import { AccessTokenGuard } from './access-token.guard';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { User } from './users.model';
 import { RefreshTokenAuthorizationGuard } from './refresh-token-authorization.guard';
+import { RefreshTokenGuard } from './refresh-token.guard';
 
 @Controller('users')
 export class UsersController {
@@ -113,5 +114,13 @@ export class UsersController {
     );
 
     return { refreshToken, accessToken };
+  }
+
+  @Get('/logout')
+  @UseGuards(RefreshTokenGuard)
+  async logout(@CurrentUser() user: User) {
+    await this.usersService.logout(user);
+
+    return { message: 'Successfully Logged Out' };
   }
 }

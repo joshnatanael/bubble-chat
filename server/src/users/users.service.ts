@@ -232,4 +232,8 @@ export class UsersService {
 
     return { refreshToken, accessToken };
   }
+
+  async logout(user: User) {
+    await this.updateRefreshTokenByUserId(user.id, null);
+  }
 }
