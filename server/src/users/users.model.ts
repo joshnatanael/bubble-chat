@@ -1,6 +1,7 @@
 import {
   BeforeFind,
   BeforeSave,
+  BelongsToMany,
   Column,
   Model,
   PrimaryKey,
@@ -11,10 +12,31 @@ import {
   generateUUIDFieldOptions,
   hashPassword,
   overrideHookOptions,
-} from '../utils/index';
+} from '../utils';
+import { Optional } from 'sequelize/types';
+import { Chatroom } from 'src/chatrooms/chatrooms.model';
+import { UserChatroom } from 'src/user-chatrooms/user-chatrooms.model';
+
+export interface UserAttributes {
+  id: string;
+  username: string;
+  firstName?: string;
+  lastName?: string;
+  status?: string;
+  password: string;
+  email: string;
+  picture: string;
+  chatrooms?: Array<Chatroom & { UserChatroom: UserChatroom }>;
+  refreshToken: string;
+}
+
+export type UserCreationAttributes = Optional<
+  UserAttributes,
+  'id' | 'refreshToken'
+>;
 
 @Table
-export class User extends Model {
+export class User extends Model<UserAttributes, UserCreationAttributes> {
   @PrimaryKey
   @Column({
     ...generateUUIDFieldOptions<User>('id'),
@@ -56,6 +78,9 @@ export class User extends Model {
 
   @Column
   refreshToken?: string;
+
+  @BelongsToMany(() => Chatroom, () => UserChatroom)
+  chatrooms?: Array<Chatroom & { UserChatroom: UserChatroom }>;
 
   @BeforeFind
   static BeforeFindUUID(options: any) {

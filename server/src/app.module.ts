@@ -10,6 +10,8 @@ import { joiPipeConfig } from './config/joi-pipe.config';
 import { ConfigModule } from '@nestjs/config';
 import { commonConfig } from './config/common.config';
 import { authConfig } from './config/auth.config';
+import { ChatroomsModule } from './chatrooms/chatrooms.module';
+import { UserChatroomsModule } from './user-chatrooms/user-chatrooms.module';
 
 @Module({
   imports: [
@@ -28,6 +30,8 @@ import { authConfig } from './config/auth.config';
     }),
     JoiPipeModule.forRoot(joiPipeConfig),
     UsersModule,
+    ChatroomsModule,
+    UserChatroomsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
