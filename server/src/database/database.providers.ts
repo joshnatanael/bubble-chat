@@ -16,7 +16,7 @@ export const databaseProviders = [
         database: 'bubble_chat',
       });
       sequelize.addModels([UserChatroom, User, Chatroom]);
-      await sequelize.sync({ force: true });
+      await sequelize.sync({ force: false });
       return sequelize;
     },
   },
