@@ -23,4 +23,8 @@ export class ChatroomsRepository {
       },
     });
   }
+
+  // create(userIds: string[]): Promise<Chatroom> {
+  //   return this.chatroomModel.create({ users: userIds });
+  // }
 }

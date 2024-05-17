@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { ChatroomsService } from './chatrooms.service';
 import { RefreshTokenAuthorizationGuard } from 'src/users/refresh-token-authorization.guard';
 import { CurrentUser } from 'src/users/decorators/current-user.decorator';
@@ -15,4 +15,10 @@ export class ChatroomsController {
 
     return chatrooms;
   }
+
+  // @Post('')
+  // @UseGuards(RefreshTokenAuthorizationGuard)
+  // async createChatroom(@CurrentUser() user: User, userIds: string[]) {
+  //   const chatrooms = await this.chatroomsService.create(user.id, userIds);
+  // }
 }

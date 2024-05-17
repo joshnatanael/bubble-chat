@@ -9,4 +9,8 @@ export class ChatroomsService {
   getAllByUser(userId: string): Promise<Chatroom[]> {
     return this.chatroomsRepository.getAllByUserId(userId);
   }
+
+  // create(userId: string, userIds: string[]): Promise<Chatroom> {
+  //   return this.chatroomsRepository.create([...userIds, userId]);
+  // }
 }
