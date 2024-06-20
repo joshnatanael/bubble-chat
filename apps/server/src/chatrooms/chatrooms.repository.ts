@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Chatroom } from './chatrooms.model';
 import { User } from 'src/users/users.model';
+import { Attributes, CreateOptions } from 'sequelize';
 
 @Injectable()
 export class ChatroomsRepository {
@@ -24,7 +25,10 @@ export class ChatroomsRepository {
     });
   }
 
-  // create(userIds: string[]): Promise<Chatroom> {
-  //   return this.chatroomModel.create({ users: userIds });
-  // }
+  create(
+    name: string,
+    options?: CreateOptions<Attributes<Chatroom>>,
+  ): Promise<Chatroom> {
+    return this.chatroomModel.create({ name }, { ...options });
+  }
 }

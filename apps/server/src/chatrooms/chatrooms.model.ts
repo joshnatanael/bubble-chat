@@ -14,6 +14,7 @@ import {
 } from 'src/utils';
 import { User } from 'src/users/users.model';
 import { UserChatroom } from 'src/user-chatrooms/user-chatrooms.model';
+import { BelongsToManyAddAssociationsMixin } from 'sequelize';
 
 export interface ChatroomAttributes {
   id: string;
@@ -29,6 +30,8 @@ export class Chatroom extends Model<
   ChatroomAttributes,
   ChatroomCreationAttributes
 > {
+  declare addUsers: BelongsToManyAddAssociationsMixin<User, 'id'>;
+
   @PrimaryKey
   @Column({
     ...generateUUIDFieldOptions<Chatroom>('id'),

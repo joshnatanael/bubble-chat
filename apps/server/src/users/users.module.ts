@@ -19,5 +19,6 @@ import { RefreshTokenStrategy } from './refresh-token.strategy';
     RefreshTokenStrategy,
   ],
   controllers: [UsersController],
+  exports: [UsersService],
 })
 export class UsersModule {}
