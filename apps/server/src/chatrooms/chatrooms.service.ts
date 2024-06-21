@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ChatroomsRepository } from './chatrooms.repository';
 import { Chatroom } from './chatrooms.model';
 import { CreateChatroomDto } from './dtos/create-chatroom.dto';
 import { UsersService } from 'src/users/users.service';
 import { Sequelize } from 'sequelize-typescript';
+import { Attributes, FindOptions, Transaction } from 'sequelize';
+import { User } from 'src/users/users.model';
 
 @Injectable()
 export class ChatroomsService {
@@ -15,6 +17,21 @@ export class ChatroomsService {
 
   getAllByUser(userId: string): Promise<Chatroom[]> {
     return this.chatroomsRepository.getAllByUserId(userId);
+  }
+
+  async getOneByCondition(options: FindOptions<Attributes<Chatroom>>) {
+    const chatroom = await this.chatroomsRepository.getOneByCondition({
+      ...options,
+    });
+
+    if (!chatroom) {
+      throw new NotFoundException({
+        code: 'NotFoundByCondition',
+        message: 'Chatroom not found',
+      });
+    }
+
+    return chatroom;
   }
 
   async create(userId: string, body: CreateChatroomDto): Promise<Chatroom> {
@@ -49,5 +66,23 @@ export class ChatroomsService {
 
       throw error;
     }
+  }
+
+  async deleteChatroom(
+    userId: string,
+    chatroomId: string,
+    transaction?: Transaction,
+  ) {
+    const chatroom = await this.getOneByCondition({
+      where: {
+        id: chatroomId,
+      },
+      include: {
+        model: User,
+        where: { id: userId },
+      },
+    });
+
+    return chatroom.destroy({ transaction });
   }
 }

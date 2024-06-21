@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Chatroom } from './chatrooms.model';
 import { User } from 'src/users/users.model';
-import { Attributes, CreateOptions } from 'sequelize';
+import { Attributes, CreateOptions, FindOptions } from 'sequelize';
 
 @Injectable()
 export class ChatroomsRepository {
@@ -23,6 +23,12 @@ export class ChatroomsRepository {
         },
       },
     });
+  }
+
+  getOneByCondition(
+    options: FindOptions<Attributes<Chatroom>>,
+  ): Promise<Chatroom | null> {
+    return this.chatroomModel.findOne({ ...options });
   }
 
   create(
