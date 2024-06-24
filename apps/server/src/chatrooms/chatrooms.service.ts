@@ -1,11 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ChatroomsRepository } from './chatrooms.repository';
 import { Chatroom } from './chatrooms.model';
-import { CreateChatroomDto } from './dtos/create-chatroom.dto';
+import { CreateChatroomBodyDto } from './dtos/create-chatroom.dto';
 import { UsersService } from 'src/users/users.service';
 import { Sequelize } from 'sequelize-typescript';
 import { Attributes, FindOptions, Transaction } from 'sequelize';
 import { User } from 'src/users/users.model';
+import { UpdateChatroomBodyDto } from './dtos/update-chatroom.dto';
 
 @Injectable()
 export class ChatroomsService {
@@ -34,7 +35,7 @@ export class ChatroomsService {
     return chatroom;
   }
 
-  async create(userId: string, body: CreateChatroomDto): Promise<Chatroom> {
+  async create(userId: string, body: CreateChatroomBodyDto): Promise<Chatroom> {
     try {
       const users = await Promise.all(
         [...body.userIds, userId].map(
@@ -84,5 +85,25 @@ export class ChatroomsService {
     });
 
     return chatroom.destroy({ transaction });
+  }
+
+  async updateChatroom(
+    userId: string,
+    chatroomId: string,
+    chatroomData: UpdateChatroomBodyDto,
+  ) {
+    const chatroom = await this.getOneByCondition({
+      where: {
+        id: chatroomId,
+      },
+      include: {
+        model: User,
+        where: { id: userId },
+      },
+    });
+
+    chatroom.set(chatroomData);
+
+    return chatroom.save();
   }
 }
