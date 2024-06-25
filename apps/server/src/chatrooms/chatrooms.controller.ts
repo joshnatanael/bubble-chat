@@ -18,7 +18,7 @@ import {
   UpdateChatroomBodyDto,
   UpdateChatroomParamDto,
 } from './dtos/update-chatroom.dto';
-import { DeleteUserChatroomParamDto } from './dtos/delete-user-chatroom.dto';
+import { LeaveChatroomParamDto } from './dtos/leave-chatroom.dto';
 
 @Controller('chatrooms')
 export class ChatroomsController {
@@ -74,7 +74,7 @@ export class ChatroomsController {
   @UseGuards(RefreshTokenAuthorizationGuard)
   async leaveChatroom(
     @CurrentUser() user: User,
-    @Param() params: DeleteUserChatroomParamDto,
+    @Param() params: LeaveChatroomParamDto,
   ) {
     await this.chatroomsService.leaveChatroom(user.id, params.chatroomId);
 
