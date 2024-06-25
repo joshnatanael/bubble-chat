@@ -106,7 +106,6 @@ export class UsersController {
 
     const parsedRefreshToken =
       currentRefreshToken?.replace(/Bearer /, '') || '';
-    console.log(user);
 
     const { refreshToken, accessToken } = await this.usersService.refreshToken(
       user,

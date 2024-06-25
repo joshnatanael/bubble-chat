@@ -106,4 +106,20 @@ export class ChatroomsService {
 
     return chatroom.save();
   }
+
+  async leaveChatroom(userId: string, chatroomId: string) {
+    const chatroom = await this.getOneByCondition({
+      where: {
+        id: chatroomId,
+      },
+      include: {
+        model: User,
+        where: { id: userId },
+      },
+    });
+
+    const user = await this.usersService.getOneById(userId);
+
+    return chatroom.removeUser(user);
+  }
 }

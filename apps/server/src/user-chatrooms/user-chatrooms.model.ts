@@ -1,4 +1,5 @@
 import {
+  BeforeBulkDestroy,
   BeforeDestroy,
   BeforeFind,
   BeforeUpdate,
@@ -49,6 +50,11 @@ export class UserChatroom extends Model<
 
   @BeforeDestroy
   static BeforeDestroyUUID(instance: UserChatroom, options: any) {
+    overrideHookOptions(options);
+  }
+
+  @BeforeBulkDestroy
+  static BeforeBulkDestroyUUID(options: any) {
     overrideHookOptions(options);
   }
 }

@@ -4,9 +4,15 @@ import { toBinaryUUID } from './to-binary-uuid';
 export const overrideHookOptions = (options: any): void => {
   if (options.where) {
     Object.keys(options.where).forEach((key) => {
-      options.where[key] = validate(options.where[key])
-        ? toBinaryUUID(options.where[key])
-        : options.where[key];
+      if (Array.isArray(options.where[key])) {
+        options.where[key] = options.where[key].map((el: string) =>
+          validate(el) ? toBinaryUUID(el) : el,
+        );
+      } else {
+        options.where[key] = validate(options.where[key])
+          ? toBinaryUUID(options.where[key])
+          : options.where[key];
+      }
     });
   }
   if (options.include) {

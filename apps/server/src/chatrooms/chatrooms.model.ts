@@ -1,5 +1,6 @@
 import { Optional } from 'sequelize/types';
 import {
+  BeforeDestroy,
   BeforeFind,
   BelongsToMany,
   Column,
@@ -15,6 +16,7 @@ import {
 import { User } from 'src/users/users.model';
 import { UserChatroom } from 'src/user-chatrooms/user-chatrooms.model';
 import { BelongsToManyAddAssociationsMixin } from 'sequelize';
+import { BelongsToManyRemoveAssociationMixin } from 'sequelize';
 
 export interface ChatroomAttributes {
   id: string;
@@ -31,6 +33,7 @@ export class Chatroom extends Model<
   ChatroomCreationAttributes
 > {
   declare addUsers: BelongsToManyAddAssociationsMixin<User, 'id'>;
+  declare removeUser: BelongsToManyRemoveAssociationMixin<User, 'id'>;
 
   @PrimaryKey
   @Column({
@@ -50,6 +53,11 @@ export class Chatroom extends Model<
 
   @BeforeFind
   static BeforeFindUUID(options: any) {
+    overrideHookOptions(options);
+  }
+
+  @BeforeDestroy
+  static BeforeDestroyUUID(options: any) {
     overrideHookOptions(options);
   }
 }

@@ -11,7 +11,6 @@ const cookieExtractor = (req: Request) => {
   if (req && req.cookies) {
     jwt = req.cookies['refresh_token'];
   }
-  console.log(req.cookies);
 
   return jwt;
 };
