@@ -17,6 +17,8 @@ import { User } from 'src/users/users.model';
 import { UserChatroom } from 'src/user-chatrooms/user-chatrooms.model';
 import { BelongsToManyAddAssociationsMixin } from 'sequelize';
 import { BelongsToManyRemoveAssociationMixin } from 'sequelize';
+import { BelongsToManyGetAssociationsMixin } from 'sequelize';
+import { BelongsToManyHasAssociationMixin } from 'sequelize';
 
 export interface ChatroomAttributes {
   id: string;
@@ -34,6 +36,8 @@ export class Chatroom extends Model<
 > {
   declare addUsers: BelongsToManyAddAssociationsMixin<User, 'id'>;
   declare removeUser: BelongsToManyRemoveAssociationMixin<User, 'id'>;
+  declare getUsers: BelongsToManyGetAssociationsMixin<User>;
+  declare hasUser: BelongsToManyHasAssociationMixin<User, 'id'>;
 
   @PrimaryKey
   @Column({

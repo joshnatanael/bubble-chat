@@ -20,6 +20,19 @@ export class ChatroomsService {
     return this.chatroomsRepository.getAllByUserId(userId);
   }
 
+  async getOneById(chatroomId: string): Promise<Chatroom> {
+    const chatroom = await this.chatroomsRepository.getOneById(chatroomId);
+
+    if (!chatroom) {
+      throw new NotFoundException({
+        code: 'NotFoundById',
+        message: 'Chatroom not found',
+      });
+    }
+
+    return chatroom;
+  }
+
   async getOneByCondition(options: FindOptions<Attributes<Chatroom>>) {
     const chatroom = await this.chatroomsRepository.getOneByCondition({
       ...options,
@@ -121,5 +134,19 @@ export class ChatroomsService {
     const user = await this.usersService.getOneById(userId);
 
     return chatroom.removeUser(user);
+  }
+
+  async getUsersChatroom(userId: string, chatroomId: string) {
+    const chatroom = await this.getOneByCondition({
+      where: {
+        id: chatroomId,
+      },
+      include: {
+        model: User,
+        where: { id: userId },
+      },
+    });
+
+    return chatroom.getUsers();
   }
 }

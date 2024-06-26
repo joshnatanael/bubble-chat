@@ -19,6 +19,7 @@ import {
   UpdateChatroomParamDto,
 } from './dtos/update-chatroom.dto';
 import { LeaveChatroomParamDto } from './dtos/leave-chatroom.dto';
+import { GetUsersChatroomParamDto } from './dtos/get-users-chatroom.dto';
 
 @Controller('chatrooms')
 export class ChatroomsController {
@@ -79,5 +80,19 @@ export class ChatroomsController {
     await this.chatroomsService.leaveChatroom(user.id, params.chatroomId);
 
     return { message: 'Success!' };
+  }
+
+  @Get('/:chatroomId/users')
+  @UseGuards(RefreshTokenAuthorizationGuard)
+  async getUsersChatroom(
+    @CurrentUser() user: User,
+    @Param() params: GetUsersChatroomParamDto,
+  ) {
+    const users = await this.chatroomsService.getUsersChatroom(
+      user.id,
+      params.chatroomId,
+    );
+
+    return users;
   }
 }

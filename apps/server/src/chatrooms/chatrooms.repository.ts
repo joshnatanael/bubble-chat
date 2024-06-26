@@ -37,4 +37,11 @@ export class ChatroomsRepository {
   ): Promise<Chatroom> {
     return this.chatroomModel.create({ name }, { ...options });
   }
+
+  getOneById(chatroomId: string): Promise<Chatroom | null> {
+    return this.chatroomModel.findOne({
+      where: { id: chatroomId },
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
+    });
+  }
 }
