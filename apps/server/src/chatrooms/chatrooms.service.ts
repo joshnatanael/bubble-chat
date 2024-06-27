@@ -16,8 +16,19 @@ export class ChatroomsService {
     private sequelize: Sequelize,
   ) {}
 
-  getAllByUser(userId: string): Promise<Chatroom[]> {
-    return this.chatroomsRepository.getAllByUserId(userId);
+  async getAllByUser(userId: string): Promise<Chatroom[]> {
+    const user = await this.usersService.getOneById(userId);
+    return await user.getChatrooms({
+      include: [
+        {
+          model: User,
+          attributes: {
+            exclude: ['password', 'refreshToken'],
+          },
+          through: { attributes: [] },
+        },
+      ],
+    });
   }
 
   async getOneById(chatroomId: string): Promise<Chatroom> {

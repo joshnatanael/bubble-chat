@@ -16,6 +16,7 @@ import {
 import { Optional } from 'sequelize/types';
 import { Chatroom } from 'src/chatrooms/chatrooms.model';
 import { UserChatroom } from 'src/user-chatrooms/user-chatrooms.model';
+import { BelongsToManyGetAssociationsMixin } from 'sequelize';
 
 export interface UserAttributes {
   id: string;
@@ -37,6 +38,8 @@ export type UserCreationAttributes = Optional<
 
 @Table
 export class User extends Model<UserAttributes, UserCreationAttributes> {
+  declare getChatrooms: BelongsToManyGetAssociationsMixin<Chatroom>;
+
   @PrimaryKey
   @Column({
     ...generateUUIDFieldOptions<User>('id'),
