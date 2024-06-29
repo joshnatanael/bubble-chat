@@ -24,7 +24,10 @@ export interface MessageAttributes {
   isDeleted: boolean;
 }
 
-export type MessageCreationAttributes = Optional<MessageAttributes, 'id'>;
+export type MessageCreationAttributes = Optional<
+  MessageAttributes,
+  'id' | 'isDeleted'
+>;
 
 @Table
 export class Message extends Model<

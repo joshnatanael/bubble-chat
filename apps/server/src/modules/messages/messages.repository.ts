@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Message } from './messages.model';
-import { Attributes, FindOptions } from 'sequelize';
+import { Message, MessageCreationAttributes } from './messages.model';
+import { Attributes, CreateOptions, FindOptions } from 'sequelize';
 
 @Injectable()
 export class MessagesRepository {
@@ -11,5 +11,12 @@ export class MessagesRepository {
     options: FindOptions<Attributes<Message>>,
   ): Promise<Message[] | null> {
     return this.messageModel.findAll({ ...options });
+  }
+
+  create(
+    body: MessageCreationAttributes,
+    options?: CreateOptions<Attributes<Message>>,
+  ): Promise<Message> {
+    return this.messageModel.create(body, { ...options });
   }
 }
