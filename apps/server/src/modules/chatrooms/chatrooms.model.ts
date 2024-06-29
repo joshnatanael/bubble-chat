@@ -13,12 +13,12 @@ import {
   generateUUIDFieldOptions,
   overrideHookOptions,
 } from 'src/utils';
-import { User } from 'src/users/users.model';
-import { UserChatroom } from 'src/user-chatrooms/user-chatrooms.model';
 import { BelongsToManyAddAssociationsMixin } from 'sequelize';
 import { BelongsToManyRemoveAssociationMixin } from 'sequelize';
 import { BelongsToManyGetAssociationsMixin } from 'sequelize';
 import { BelongsToManyHasAssociationMixin } from 'sequelize';
+import { User } from '../users/users.model';
+import { UserChatroom } from '../user-chatrooms/user-chatrooms.model';
 
 export interface ChatroomAttributes {
   id: string;

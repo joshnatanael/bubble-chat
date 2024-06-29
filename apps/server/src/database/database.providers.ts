@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize-typescript';
-import { Chatroom } from 'src/chatrooms/chatrooms.model';
-import { UserChatroom } from 'src/user-chatrooms/user-chatrooms.model';
-import { User } from 'src/users/users.model';
+import { Chatroom } from 'src/modules/chatrooms/chatrooms.model';
+import { UserChatroom } from 'src/modules/user-chatrooms/user-chatrooms.model';
+import { User } from 'src/modules/users/users.model';
 
 export const databaseProviders = [
   {

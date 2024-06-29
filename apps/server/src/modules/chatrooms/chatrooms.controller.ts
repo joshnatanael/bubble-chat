@@ -9,9 +9,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ChatroomsService } from './chatrooms.service';
-import { RefreshTokenAuthorizationGuard } from 'src/users/refresh-token-authorization.guard';
-import { CurrentUser } from 'src/users/decorators/current-user.decorator';
-import { User } from 'src/users/users.model';
 import { CreateChatroomBodyDto } from './dtos/create-chatroom.dto';
 import { DeleteChatroomParamDto } from './dtos/delete-chatroom.dto';
 import {
@@ -20,6 +17,9 @@ import {
 } from './dtos/update-chatroom.dto';
 import { LeaveChatroomParamDto } from './dtos/leave-chatroom.dto';
 import { GetUsersChatroomParamDto } from './dtos/get-users-chatroom.dto';
+import { RefreshTokenAuthorizationGuard } from '../users/refresh-token-authorization.guard';
+import { CurrentUser } from '../users/decorators/current-user.decorator';
+import { User } from '../users/users.model';
 
 @Controller('chatrooms')
 export class ChatroomsController {

@@ -4,7 +4,7 @@ import { ChatroomsService } from './chatrooms.service';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Chatroom } from './chatrooms.model';
 import { ChatroomsRepository } from './chatrooms.repository';
-import { UsersModule } from 'src/users/users.module';
+import { UsersModule } from '../users/users.module';
 
 @Module({
   imports: [SequelizeModule.forFeature([Chatroom]), UsersModule],

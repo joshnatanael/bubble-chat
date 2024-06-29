@@ -2,11 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { ChatroomsRepository } from './chatrooms.repository';
 import { Chatroom } from './chatrooms.model';
 import { CreateChatroomBodyDto } from './dtos/create-chatroom.dto';
-import { UsersService } from 'src/users/users.service';
 import { Sequelize } from 'sequelize-typescript';
 import { Attributes, FindOptions, Transaction } from 'sequelize';
-import { User } from 'src/users/users.model';
 import { UpdateChatroomBodyDto } from './dtos/update-chatroom.dto';
+import { UsersService } from '../users/users.service';
+import { User } from '../users/users.model';
 
 @Injectable()
 export class ChatroomsService {

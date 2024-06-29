@@ -8,9 +8,9 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { User } from 'src/users/users.model';
-import { generateUUIDFieldOptions, overrideHookOptions } from '../utils';
-import { Chatroom } from 'src/chatrooms/chatrooms.model';
+import { generateUUIDFieldOptions, overrideHookOptions } from 'src/utils';
+import { User } from '../users/users.model';
+import { Chatroom } from '../chatrooms/chatrooms.model';
 
 export interface UserChatroomAttributes {
   userId: string;

@@ -12,11 +12,11 @@ import {
   generateUUIDFieldOptions,
   hashPassword,
   overrideHookOptions,
-} from '../utils';
+} from 'src/utils';
 import { Optional } from 'sequelize/types';
-import { Chatroom } from 'src/chatrooms/chatrooms.model';
-import { UserChatroom } from 'src/user-chatrooms/user-chatrooms.model';
 import { BelongsToManyGetAssociationsMixin } from 'sequelize';
+import { Chatroom } from '../chatrooms/chatrooms.model';
+import { UserChatroom } from '../user-chatrooms/user-chatrooms.model';
 
 export interface UserAttributes {
   id: string;
