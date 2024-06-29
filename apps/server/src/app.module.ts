@@ -12,6 +12,7 @@ import { authConfig } from './config/auth.config';
 import { UsersModule } from './modules/users/users.module';
 import { ChatroomsModule } from './modules/chatrooms/chatrooms.module';
 import { UserChatroomsModule } from './modules/user-chatrooms/user-chatrooms.module';
+import { MessagesModule } from './modules/messages/messages.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { UserChatroomsModule } from './modules/user-chatrooms/user-chatrooms.mod
     UsersModule,
     ChatroomsModule,
     UserChatroomsModule,
+    MessagesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
