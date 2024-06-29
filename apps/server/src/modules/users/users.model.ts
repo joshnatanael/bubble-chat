@@ -17,6 +17,8 @@ import { Optional } from 'sequelize/types';
 import { BelongsToManyGetAssociationsMixin } from 'sequelize';
 import { Chatroom } from '../chatrooms/chatrooms.model';
 import { UserChatroom } from '../user-chatrooms/user-chatrooms.model';
+import { Relation } from '../relations/relations.model';
+import { UserRelation } from '../user-relations/user-relations.model';
 
 export interface UserAttributes {
   id: string;
@@ -28,6 +30,7 @@ export interface UserAttributes {
   email: string;
   picture: string;
   chatrooms?: Array<Chatroom & { UserChatroom: UserChatroom }>;
+  relations?: Array<Relation & { UserRelation: UserRelation }>;
   refreshToken: string;
 }
 
@@ -84,6 +87,9 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
 
   @BelongsToMany(() => Chatroom, () => UserChatroom)
   chatrooms?: Array<Chatroom & { UserChatroom: UserChatroom }>;
+
+  @BelongsToMany(() => Relation, () => UserRelation)
+  relations?: Array<Relation & { UserRelation: UserRelation }>;
 
   @BeforeFind
   static BeforeFindUUID(options: any) {

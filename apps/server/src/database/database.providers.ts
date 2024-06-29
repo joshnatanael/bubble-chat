@@ -1,7 +1,9 @@
 import { Sequelize } from 'sequelize-typescript';
 import { Chatroom } from 'src/modules/chatrooms/chatrooms.model';
 import { Message } from 'src/modules/messages/messages.model';
+import { Relation } from 'src/modules/relations/relations.model';
 import { UserChatroom } from 'src/modules/user-chatrooms/user-chatrooms.model';
+import { UserRelation } from 'src/modules/user-relations/user-relations.model';
 import { User } from 'src/modules/users/users.model';
 
 export const databaseProviders = [
@@ -16,7 +18,14 @@ export const databaseProviders = [
         password: 'password',
         database: 'bubble_chat',
       });
-      sequelize.addModels([UserChatroom, User, Chatroom, Message]);
+      sequelize.addModels([
+        UserChatroom,
+        User,
+        Chatroom,
+        Message,
+        UserRelation,
+        Relation,
+      ]);
       await sequelize.sync({ force: false });
       return sequelize;
     },

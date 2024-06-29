@@ -13,6 +13,8 @@ import { UsersModule } from './modules/users/users.module';
 import { ChatroomsModule } from './modules/chatrooms/chatrooms.module';
 import { UserChatroomsModule } from './modules/user-chatrooms/user-chatrooms.module';
 import { MessagesModule } from './modules/messages/messages.module';
+import { UserRelationsModule } from './modules/user-relations/user-relations.module';
+import { RelationsModule } from './modules/relations/relations.module';
 
 @Module({
   imports: [
@@ -34,6 +36,8 @@ import { MessagesModule } from './modules/messages/messages.module';
     ChatroomsModule,
     UserChatroomsModule,
     MessagesModule,
+    UserRelationsModule,
+    RelationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
