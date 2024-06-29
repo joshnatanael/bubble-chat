@@ -4,9 +4,10 @@ import { Message } from './messages.model';
 import { MessagesController } from './messages.controller';
 import { MessagesService } from './messages.service';
 import { MessagesRepository } from './messages.repository';
+import { ChatroomsModule } from '../chatrooms/chatrooms.module';
 
 @Module({
-  imports: [SequelizeModule.forFeature([Message])],
+  imports: [SequelizeModule.forFeature([Message]), ChatroomsModule],
   controllers: [MessagesController],
   providers: [MessagesService, MessagesRepository],
 })

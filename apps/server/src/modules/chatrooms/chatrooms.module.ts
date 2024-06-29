@@ -10,5 +10,6 @@ import { UsersModule } from '../users/users.module';
   imports: [SequelizeModule.forFeature([Chatroom]), UsersModule],
   controllers: [ChatroomsController],
   providers: [ChatroomsService, ChatroomsRepository],
+  exports: [ChatroomsService],
 })
 export class ChatroomsModule {}
