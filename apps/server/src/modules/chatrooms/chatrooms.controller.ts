@@ -20,6 +20,7 @@ import { GetUsersChatroomParamDto } from './dtos/get-users-chatroom.dto';
 import { RefreshTokenAuthorizationGuard } from '../users/refresh-token-authorization.guard';
 import { CurrentUser } from '../users/decorators/current-user.decorator';
 import { User } from '../users/users.model';
+import { GetChatroomDetailsParamDto } from './dtos/get-chatroom-details.dto copy';
 
 @Controller('chatrooms')
 export class ChatroomsController {
@@ -42,6 +43,15 @@ export class ChatroomsController {
     const chatroom = await this.chatroomsService.create(user.id, body);
 
     return chatroom;
+  }
+
+  @Get('/:chatroomId')
+  @UseGuards(RefreshTokenAuthorizationGuard)
+  async getChatroomDetails(
+    @CurrentUser() user: User,
+    @Param() params: GetChatroomDetailsParamDto,
+  ) {
+    return this.chatroomsService.getChatroomDetails(user.id, params.chatroomId);
   }
 
   @Delete('/:chatroomId')

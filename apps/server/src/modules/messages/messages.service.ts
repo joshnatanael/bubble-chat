@@ -27,32 +27,25 @@ export class MessagesService {
       },
     });
 
-    if (!chatroom) {
-      throw new NotFoundException({
-        code: 'NotFoundById',
-        message: 'Chatroom not found',
-      });
-    }
-
     return this.messagesRepository.getAllByCondition({
-      where: { chatroomId },
+      where: { chatroomId: chatroom.id },
       order: [['createdAt', 'DESC']],
     });
   }
 
   async getOneByCondition(options: FindOptions<Attributes<Message>>) {
-    const chatroom = await this.messagesRepository.getOneByCondition({
+    const message = await this.messagesRepository.getOneByCondition({
       ...options,
     });
 
-    if (!chatroom) {
+    if (!message) {
       throw new NotFoundException({
         code: 'NotFoundByCondition',
         message: 'Message not found',
       });
     }
 
-    return chatroom;
+    return message;
   }
 
   async createMessage(
@@ -69,14 +62,11 @@ export class MessagesService {
       },
     });
 
-    if (!chatroom) {
-      throw new NotFoundException({
-        code: 'NotFoundById',
-        message: 'Chatroom not found',
-      });
-    }
-
-    return this.messagesRepository.create({ ...body, userId });
+    return this.messagesRepository.create({
+      ...body,
+      userId,
+      chatroomId: chatroom.id,
+    });
   }
 
   async deleteMessage(userId: string, messageId: string): Promise<Message> {

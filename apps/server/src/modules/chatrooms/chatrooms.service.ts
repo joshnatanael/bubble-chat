@@ -93,6 +93,24 @@ export class ChatroomsService {
     }
   }
 
+  async getChatroomDetails(userId: string, chatroomId: string) {
+    const chatroom = await this.getOneByCondition({
+      where: { id: chatroomId },
+      include: { model: User },
+    });
+
+    const isUserInChatroom = chatroom.users.find((user) => user.id === userId);
+
+    if (!isUserInChatroom) {
+      throw new NotFoundException({
+        code: 'NotFoundById',
+        message: 'Chatroom not found',
+      });
+    }
+
+    return chatroom;
+  }
+
   async deleteChatroom(
     userId: string,
     chatroomId: string,
