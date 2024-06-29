@@ -13,6 +13,12 @@ export class MessagesRepository {
     return this.messageModel.findAll({ ...options });
   }
 
+  getOneByCondition(
+    options: FindOptions<Attributes<Message>>,
+  ): Promise<Message | null> {
+    return this.messageModel.findOne({ ...options });
+  }
+
   create(
     body: MessageCreationAttributes,
     options?: CreateOptions<Attributes<Message>>,

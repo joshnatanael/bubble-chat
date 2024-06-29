@@ -1,10 +1,19 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { MessagesService } from './messages.service';
 import { RefreshTokenAuthorizationGuard } from '../users/refresh-token-authorization.guard';
 import { CurrentUser } from '../users/decorators/current-user.decorator';
 import { User } from '../users/users.model';
 import { GetChatroomMessagesParamDto } from './dtos/get-chatroom-messages';
 import { CreateMessageBodyDto } from './dtos/create-message';
+import { DeleteMessageParamDto } from './dtos/delete-message';
 
 @Controller('messages')
 export class MessagesController {
@@ -28,6 +37,20 @@ export class MessagesController {
   @UseGuards(RefreshTokenAuthorizationGuard)
   createMessage(@CurrentUser() user: User, @Body() body: CreateMessageBodyDto) {
     const messages = this.messagesService.createMessage(user.id, body);
+
+    return messages;
+  }
+
+  @Delete('/:messageId')
+  @UseGuards(RefreshTokenAuthorizationGuard)
+  deleteMessage(
+    @CurrentUser() user: User,
+    @Param() params: DeleteMessageParamDto,
+  ) {
+    const messages = this.messagesService.deleteMessage(
+      user.id,
+      params.messageId,
+    );
 
     return messages;
   }
