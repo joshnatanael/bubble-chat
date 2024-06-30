@@ -42,6 +42,7 @@ export type UserCreationAttributes = Optional<
 @Table
 export class User extends Model<UserAttributes, UserCreationAttributes> {
   declare getChatrooms: BelongsToManyGetAssociationsMixin<Chatroom>;
+  declare getRelations: BelongsToManyGetAssociationsMixin<Relation>;
 
   @PrimaryKey
   @Column({

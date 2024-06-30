@@ -10,6 +10,7 @@ import { DataTypes, Optional } from 'sequelize';
 import { User } from '../users/users.model';
 import { UserRelation } from '../user-relations/user-relations.model';
 
+export const relationTypeValue = ['friend', 'block'];
 export type RelationType = 'friend' | 'block';
 
 export interface RelationAttributes {
@@ -34,7 +35,7 @@ export class Relation extends Model<
   @Column({
     type: DataTypes.ENUM('friend', 'block'),
   })
-  content: RelationType;
+  type: RelationType;
 
   @Column({
     type: DataTypes.BOOLEAN,
