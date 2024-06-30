@@ -6,7 +6,11 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { generateBinaryUUID, generateUUIDFieldOptions } from 'src/utils';
-import { DataTypes, Optional } from 'sequelize';
+import {
+  BelongsToManyAddAssociationsMixin,
+  DataTypes,
+  Optional,
+} from 'sequelize';
 import { User } from '../users/users.model';
 import { UserRelation } from '../user-relations/user-relations.model';
 
@@ -16,6 +20,7 @@ export type RelationType = 'friend' | 'block';
 export interface RelationAttributes {
   id: string;
   type: RelationType;
+  isAccepted: boolean;
 }
 
 export type RelationCreationAttributes = Optional<RelationAttributes, 'id'>;
@@ -25,6 +30,8 @@ export class Relation extends Model<
   RelationAttributes,
   RelationCreationAttributes
 > {
+  declare addUsers: BelongsToManyAddAssociationsMixin<User, 'id'>;
+
   @PrimaryKey
   @Column({
     ...generateUUIDFieldOptions<Relation>('id'),
