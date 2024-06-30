@@ -36,6 +36,13 @@ export class Relation extends Model<
   })
   content: RelationType;
 
+  @Column({
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  })
+  isAccepted: boolean;
+
   @BelongsToMany(() => User, () => UserRelation)
   users?: Array<User & { UserRelation: UserRelation }>;
 }
