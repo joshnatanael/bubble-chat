@@ -1,5 +1,6 @@
 import { validate } from 'uuid';
 import { toBinaryUUID } from './to-binary-uuid';
+import { Op } from 'sequelize';
 
 export const overrideHookOptions = (options: any): void => {
   if (options.where) {
@@ -18,6 +19,13 @@ export const overrideHookOptions = (options: any): void => {
   if (options.include) {
     options.include = options.include.map((model: any) => {
       if (model.where) {
+        if (model.where[Op.not]) {
+          for (const key in model.where[Op.not]) {
+            model.where[Op.not][key] = validate(model.where[Op.not][key])
+              ? toBinaryUUID(model.where[Op.not][key])
+              : model.where[Op.not][key];
+          }
+        }
         for (const key in model.where) {
           model.where[key] = validate(model.where[key])
             ? toBinaryUUID(model.where[key])

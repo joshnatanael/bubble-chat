@@ -1,11 +1,16 @@
 import {
+  BeforeFind,
   BelongsToMany,
   Column,
   Model,
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
-import { generateBinaryUUID, generateUUIDFieldOptions } from 'src/utils';
+import {
+  generateBinaryUUID,
+  generateUUIDFieldOptions,
+  overrideHookOptions,
+} from 'src/utils';
 import {
   BelongsToManyAddAssociationsMixin,
   DataTypes,
@@ -53,4 +58,9 @@ export class Relation extends Model<
 
   @BelongsToMany(() => User, () => UserRelation)
   users?: Array<User & { UserRelation: UserRelation }>;
+
+  @BeforeFind
+  static BeforeFindUUID(options: any) {
+    overrideHookOptions(options);
+  }
 }
