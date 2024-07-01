@@ -2,6 +2,7 @@ import {
   BeforeFind,
   BelongsToMany,
   Column,
+  ForeignKey,
   Model,
   PrimaryKey,
   Table,
@@ -26,6 +27,7 @@ export interface RelationAttributes {
   id: string;
   type: RelationType;
   isAccepted: boolean;
+  senderId: string;
 }
 
 export type RelationCreationAttributes = Optional<RelationAttributes, 'id'>;
@@ -55,6 +57,13 @@ export class Relation extends Model<
     defaultValue: false,
   })
   isAccepted: boolean;
+
+  @ForeignKey(() => User)
+  @Column({
+    ...generateUUIDFieldOptions<Relation>('senderId'),
+    allowNull: false,
+  })
+  senderId: string;
 
   @BelongsToMany(() => User, () => UserRelation)
   users?: Array<User & { UserRelation: UserRelation }>;
