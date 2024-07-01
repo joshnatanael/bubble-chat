@@ -71,10 +71,13 @@ module.exports = {
     'react/jsx-filename-extension': ['warn', { extensions: ['.tsx'] }],
     'import/extensions': [
       'error',
-      'ignorePackages',
       {
-        ts: 'never',
-        tsx: 'never',
+        ignorePackages: true,
+        pattern: {
+          ts: 'never',
+          tsx: 'never',
+          png: 'always',
+        },
       },
     ],
     'react-hooks/rules-of-hooks': 'error',

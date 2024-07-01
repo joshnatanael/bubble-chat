@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./button": "./src/button/index.ts"
+    "./button": "./src/button/index.ts",
+    "./text-field": "./src/text-field/index.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
