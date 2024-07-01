@@ -1,5 +1,5 @@
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
-import "@/styles/globals.css";
+import "../styles/globals.css";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "../styles/theme";
 

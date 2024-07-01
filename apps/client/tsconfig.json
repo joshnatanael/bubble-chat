@@ -8,7 +8,7 @@
     ],
     "baseUrl": "../../apps/client",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": [
