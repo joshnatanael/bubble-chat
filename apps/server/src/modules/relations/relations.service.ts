@@ -127,4 +127,28 @@ export class RelationsService {
 
     return relation.destroy({ transaction });
   }
+
+  async acceptRelation(userId: string, relationId: string) {
+    const relation = await this.relationsRepository.getOneByCondition({
+      where: {
+        id: relationId,
+      },
+      include: {
+        model: User,
+        where: {
+          id: userId,
+        },
+      },
+    });
+
+    if (!relation) {
+      throw new NotFoundException({
+        code: 'NotFoundByCondition',
+        message: 'Relation not found',
+      });
+    }
+
+    relation.set({ isAccepted: true });
+    return relation.save();
+  }
 }

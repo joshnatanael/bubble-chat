@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -15,6 +16,7 @@ import { RelationsService } from './relations.service';
 import { GetRelationsQueryDto } from './dtos/get-relations.dto';
 import { CreateRelationBodyDto } from './dtos/create-relation.dto';
 import { DeleteRelationParamDto } from './dtos/delete-relation.dto';
+import { AcceptRelationParamDto } from './dtos/accept-relation.dto';
 
 @Controller('relations')
 export class RelationsController {
@@ -45,5 +47,14 @@ export class RelationsController {
     @Param() params: DeleteRelationParamDto,
   ) {
     return this.relationsService.delete(user.id, params.relationId);
+  }
+
+  @Patch('/:relationId')
+  @UseGuards(RefreshTokenAuthorizationGuard)
+  acceptRelation(
+    @CurrentUser() user: User,
+    @Param() params: AcceptRelationParamDto,
+  ) {
+    return this.relationsService.acceptRelation(user.id, params.relationId);
   }
 }
