@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Relation, RelationType } from './relations.model';
-import { Attributes, CreateOptions } from 'sequelize';
+import { Attributes, CreateOptions, FindOptions } from 'sequelize';
 
 @Injectable()
 export class RelationsRepository {
@@ -16,5 +16,11 @@ export class RelationsRepository {
     options?: CreateOptions<Attributes<Relation>>,
   ): Promise<Relation> {
     return this.relationModel.create({ type, isAccepted }, { ...options });
+  }
+
+  getOneByCondition(
+    options: FindOptions<Attributes<Relation>>,
+  ): Promise<Relation | null> {
+    return this.relationModel.findOne({ ...options });
   }
 }
