@@ -74,6 +74,9 @@ export class UsersService {
   async getOneById(userId: string): Promise<User> {
     const user = await this.usersRepository.getOneByCondition({
       where: { id: userId },
+      attributes: {
+        exclude: ['password', 'refreshToken'],
+      },
     });
 
     if (!user) {

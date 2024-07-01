@@ -70,7 +70,11 @@ export class RelationsService {
       });
 
       if (relation) {
-        if (relation.type === 'friend' && relation.isAccepted) {
+        if (body.type === 'block') {
+          relation.set({ type: body.type, isAccepted: true });
+
+          return relation.save();
+        } else if (relation.type === 'friend' && relation.isAccepted) {
           throw new BadRequestException({
             code: 'AlreadyFriend',
             message: 'Users already a friend',
