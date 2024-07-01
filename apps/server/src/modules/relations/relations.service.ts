@@ -90,6 +90,7 @@ export class RelationsService {
       return this.sequelize.transaction(async (t) => {
         const relation = await this.relationsRepository.create(
           body.type,
+          user.id,
           body.type === 'friend' ? false : true,
           { transaction: t },
         );

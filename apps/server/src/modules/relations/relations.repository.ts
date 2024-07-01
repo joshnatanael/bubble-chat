@@ -12,10 +12,14 @@ export class RelationsRepository {
 
   create(
     type: RelationType,
+    senderId: string,
     isAccepted?: boolean,
     options?: CreateOptions<Attributes<Relation>>,
   ): Promise<Relation> {
-    return this.relationModel.create({ type, isAccepted }, { ...options });
+    return this.relationModel.create(
+      { type, senderId, isAccepted },
+      { ...options },
+    );
   }
 
   getOneByCondition(
