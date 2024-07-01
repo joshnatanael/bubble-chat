@@ -1,9 +1,13 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { RelationsRepository } from './relations.repository';
 import { UsersService } from '../users/users.service';
 import { GetRelationsQueryDto } from './dtos/get-relations.dto';
 import { User } from '../users/users.model';
-import { Attributes, FindOptions, Op } from 'sequelize';
+import { Attributes, FindOptions, Op, Transaction } from 'sequelize';
 import { CreateRelationBodyDto } from './dtos/create-relation.dto';
 import { Sequelize } from 'sequelize-typescript';
 import { Relation } from './relations.model';
@@ -22,7 +26,7 @@ export class RelationsService {
     return user.getRelations({
       where: {
         type: query.type,
-        isAccepted: query.isAccepted,
+        isAccepted: query.type === 'block' ? true : query.isAccepted,
       },
       include: [
         {
@@ -99,5 +103,28 @@ export class RelationsService {
 
       throw error;
     }
+  }
+
+  async delete(userId: string, relationId: string, transaction?: Transaction) {
+    const relation = await this.relationsRepository.getOneByCondition({
+      where: {
+        id: relationId,
+      },
+      include: {
+        model: User,
+        where: {
+          id: userId,
+        },
+      },
+    });
+
+    if (!relation) {
+      throw new NotFoundException({
+        code: 'NotFoundByCondition',
+        message: 'Relation not found',
+      });
+    }
+
+    return relation.destroy({ transaction });
   }
 }

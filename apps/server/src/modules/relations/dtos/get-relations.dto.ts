@@ -6,6 +6,6 @@ export class GetRelationsQueryDto {
   @JoiSchema(Joi.string().required())
   type: RelationType;
 
-  @JoiSchema(Joi.boolean())
+  @JoiSchema(Joi.boolean().default(false))
   isAccepted?: boolean;
 }
