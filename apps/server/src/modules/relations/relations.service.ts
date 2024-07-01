@@ -133,6 +133,10 @@ export class RelationsService {
     const relation = await this.relationsRepository.getOneByCondition({
       where: {
         id: relationId,
+        [Op.not]: {
+          senderId: userId,
+        },
+        isAccepted: false,
       },
       include: {
         model: User,

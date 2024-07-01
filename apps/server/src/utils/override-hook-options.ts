@@ -10,6 +10,13 @@ export const overrideHookOptions = (options: any): void => {
           validate(el) ? toBinaryUUID(el) : el,
         );
       } else {
+        if (options.where[Op.not]) {
+          for (const key in options.where[Op.not]) {
+            options.where[Op.not][key] = validate(options.where[Op.not][key])
+              ? toBinaryUUID(options.where[Op.not][key])
+              : options.where[Op.not][key];
+          }
+        }
         options.where[key] = validate(options.where[key])
           ? toBinaryUUID(options.where[key])
           : options.where[key];
