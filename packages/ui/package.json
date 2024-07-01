@@ -4,7 +4,8 @@
   "private": true,
   "exports": {
     "./button": "./src/button/index.ts",
-    "./text-field": "./src/text-field/index.ts"
+    "./text-field": "./src/text-field/index.ts",
+    "./toast": "./src/toast/index.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",

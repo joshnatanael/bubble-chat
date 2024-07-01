@@ -3,6 +3,11 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import "../styles/globals.css";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { theme } from "../styles/theme";
+import {
+  ProgressBarProvider,
+  ReduxProvider,
+  ToastProvider,
+} from "@/ui/components-wrapper";
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -27,7 +32,11 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            {children}
+            <ReduxProvider>
+              <ProgressBarProvider>
+                <ToastProvider>{children}</ToastProvider>
+              </ProgressBarProvider>
+            </ReduxProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

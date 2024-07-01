@@ -6,9 +6,18 @@ import { Typography } from "@mui/material";
 import Logo from "public/assets/logo.png";
 import Link from "next/link";
 import { Button } from "@repo/ui/button";
+import { Controller } from "react-hook-form";
 import * as S from "./register-main.style";
+import useRegisterMainLogic from "./use-register-main-logic";
+import { parseValidationMessage } from "@/lib/utils";
 
 const RegisterMain: React.FC = () => {
+  const {
+    form,
+    handler: { onSubmit },
+  } = useRegisterMainLogic();
+  const { control, handleSubmit } = form;
+
   return (
     <S.RegisterMainRoot>
       <S.RegisterImageSection>
@@ -44,20 +53,83 @@ const RegisterMain: React.FC = () => {
             </S.SigninText>
           </Typography>
 
-          <S.RegisterForm component="form">
+          <S.RegisterForm component="form" onSubmit={handleSubmit(onSubmit)}>
             <S.NameFieldContainer>
-              <S.NameField fullWidth label="First Name" />
+              <Controller
+                control={control}
+                name="firstname"
+                render={({ field, fieldState: { error } }) => (
+                  <S.NameField
+                    error={!!error?.message}
+                    fullWidth
+                    helperText={parseValidationMessage(error)}
+                    label="First Name"
+                    {...field}
+                  />
+                )}
+              />
 
-              <S.NameField fullWidth label="Last Name" />
+              <Controller
+                control={control}
+                name="lastname"
+                render={({ field, fieldState: { error } }) => (
+                  <S.NameField
+                    error={!!error?.message}
+                    fullWidth
+                    helperText={parseValidationMessage(error)}
+                    label="Last Name"
+                    {...field}
+                  />
+                )}
+              />
             </S.NameFieldContainer>
 
-            <S.StyledTextField fullWidth label="Email" />
+            <Controller
+              control={control}
+              name="email"
+              render={({ field, fieldState: { error } }) => (
+                <S.StyledTextField
+                  error={!!error?.message}
+                  fullWidth
+                  helperText={parseValidationMessage(error)}
+                  label="Email"
+                  {...field}
+                />
+              )}
+            />
 
-            <S.StyledTextField fullWidth label="Username" />
+            <Controller
+              control={control}
+              name="username"
+              render={({ field, fieldState: { error } }) => (
+                <S.StyledTextField
+                  error={!!error?.message}
+                  fullWidth
+                  helperText={parseValidationMessage(error)}
+                  label="Username"
+                  {...field}
+                />
+              )}
+            />
 
-            <S.StyledTextField fullWidth label="Password" />
+            <Controller
+              control={control}
+              name="password"
+              render={({ field, fieldState: { error } }) => (
+                <S.StyledTextField
+                  error={!!error?.message}
+                  fullWidth
+                  helperText={parseValidationMessage(error)}
+                  label="Password"
+                  type="password"
+                  {...field}
+                />
+              )}
+            />
 
-            <Button fullWidth>Sign Up</Button>
+            <Button fullWidth type="submit">
+              Sign Up
+            </Button>
           </S.RegisterForm>
         </S.RegisterFormContainer>
       </S.RegisterFormSection>
