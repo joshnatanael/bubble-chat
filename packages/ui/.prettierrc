@@ -1,0 +1,12 @@
+{
+  "prettier/prettier": {
+    "singleQuote": true,
+    "trailingComma": "all",
+    "semi": true,
+    "endOfLine": "lf",
+    "useTabs": true,
+    "tabWidth": 2,
+    "bracketSpacing": true,
+    "printWidth": 80
+  }
+}
