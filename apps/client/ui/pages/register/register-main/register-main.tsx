@@ -5,7 +5,6 @@ import ChatImage from "public/assets/chat-image.png";
 import { Typography } from "@mui/material";
 import Logo from "public/assets/logo.png";
 import Link from "next/link";
-import { Button } from "@repo/ui/button";
 import { Controller } from "react-hook-form";
 import * as S from "./register-main.style";
 import useRegisterMainLogic from "./use-register-main-logic";
@@ -29,29 +28,22 @@ const RegisterMain: React.FC = () => {
           src={ChatImage}
         />
 
-        <S.BubbleChatContainer>
-          <S.BubbleTextContainer>
-            <S.LogoContainer>
-              <S.LogoImage alt="Bubble Chat" fill priority src={Logo} />
-            </S.LogoContainer>
-            <S.BubbleTitle variant="h1">Bubble Chat 🫧</S.BubbleTitle>
-            <Typography>
-              Join Bubble Chat today by creating your account effortlessly.
-            </Typography>
-          </S.BubbleTextContainer>
-        </S.BubbleChatContainer>
+        <S.BubbleChatFilter />
+        <S.BubbleTextContainer>
+          <S.LogoContainer>
+            <S.LogoImage alt="Bubble Chat" fill priority src={Logo} />
+          </S.LogoContainer>
+          <S.BubbleTitle variant="h1">Bubble Chat 🫧</S.BubbleTitle>
+          <Typography variant="h5">
+            Join Bubble Chat today by creating your account effortlessly.
+          </Typography>
+        </S.BubbleTextContainer>
       </S.RegisterImageSection>
       <S.RegisterFormSection>
         <S.RegisterFormContainer>
           <S.RegisterTitle component="h1" variant="h2">
             Register
           </S.RegisterTitle>
-          <Typography>
-            Already have an account?{" "}
-            <S.SigninText component={Link} href="/signin">
-              Log In
-            </S.SigninText>
-          </Typography>
 
           <S.RegisterForm component="form" onSubmit={handleSubmit(onSubmit)}>
             <S.NameFieldContainer>
@@ -127,9 +119,18 @@ const RegisterMain: React.FC = () => {
               )}
             />
 
-            <Button fullWidth type="submit">
-              Sign Up
-            </Button>
+            <S.RegisterButtonContainer>
+              <S.RegisterButton fullWidth type="submit">
+                Register
+              </S.RegisterButton>
+
+              <Typography>
+                Already have an account?{" "}
+                <S.SigninText component={Link} href="/login">
+                  Log In
+                </S.SigninText>
+              </Typography>
+            </S.RegisterButtonContainer>
           </S.RegisterForm>
         </S.RegisterFormContainer>
       </S.RegisterFormSection>

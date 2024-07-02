@@ -1,20 +1,31 @@
 import { Box, Typography, styled } from "@mui/material";
+import { Button } from "@repo/ui/button";
 import { TextField } from "@repo/ui/text-field";
 import Image from "next/image";
 
 export const RegisterMainRoot = styled(Box, { name: "RegisterMainRoot" })(
-  () => ({
-    height: "100%",
+  ({ theme }) => ({
+    minHeight: "100%",
     display: "flex",
+    flexDirection: "column",
+
+    [theme.breakpoints.up("md")]: {
+      flexDirection: "row",
+    },
   }),
 );
 
 export const RegisterImageSection = styled(Box, {
   name: "RegisterImageSection",
-})(() => ({
-  height: "100%",
-  width: "40%",
+})(({ theme }) => ({
+  // minHeight: 300,
   position: "relative",
+  display: "flex",
+  alignItems: "end",
+
+  [theme.breakpoints.up("md")]: {
+    width: "40%",
+  },
 }));
 
 export const RegisterImage = styled(Image, {
@@ -23,8 +34,8 @@ export const RegisterImage = styled(Image, {
   objectFit: "cover",
 }));
 
-export const BubbleChatContainer = styled(Box, {
-  name: "BubbleChatContainer",
+export const BubbleChatFilter = styled(Box, {
+  name: "BubbleChatFilter",
 })(() => ({
   position: "absolute",
   bottom: 0,
@@ -32,16 +43,14 @@ export const BubbleChatContainer = styled(Box, {
   right: 0,
   left: 0,
   background: "rgba(0,0,0,0.3)",
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "end",
 }));
 
 export const BubbleTextContainer = styled(Box, {
   name: "BubbleTextContainer",
 })(({ theme }) => ({
-  padding: "12px 32px 48px",
+  padding: "48px 32px",
   color: theme.palette.common.white,
+  zIndex: 1,
 }));
 
 export const LogoContainer = styled(Box, {
@@ -69,20 +78,27 @@ export const BubbleTitle = styled(Typography, {
 
 export const RegisterFormSection = styled(Box, {
   name: "RegisterFormSection",
-})(() => ({
-  height: "100%",
-  width: "60%",
+})(({ theme }) => ({
+  minHeight: "100%",
   display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
+  flexGrow: 1,
+
+  [theme.breakpoints.up("md")]: {
+    width: "60%",
+  },
 }));
 
 export const RegisterFormContainer = styled(Box, {
   name: "RegisterFormContainer",
-})(() => ({
+})(({ theme }) => ({
   padding: 24,
   width: "100%",
-  maxWidth: 540,
+  margin: "auto",
+
+  [theme.breakpoints.up("md")]: {
+    maxWidth: 540,
+    marginLeft: 100,
+  },
 }));
 
 export const RegisterTitle = styled(Typography, {
@@ -123,4 +139,27 @@ export const NameField = styled(TextField, {
 })(() => ({
   marginBottom: 36,
   marginRight: 20,
+}));
+
+export const RegisterButtonContainer = styled(Box, {
+  name: "RegisterButtonContainer",
+})(({ theme }) => ({
+  display: "flex",
+  gap: 20,
+  alignItems: "center",
+  flexDirection: "column",
+
+  [theme.breakpoints.up("md")]: {
+    flexDirection: "row",
+  },
+}));
+
+export const RegisterButton = styled(Button, {
+  name: "RegisterButton",
+})(({ theme }) => ({
+  flexBasis: "100%",
+
+  [theme.breakpoints.up("sm")]: {
+    flexBasis: "45%",
+  },
 }));
