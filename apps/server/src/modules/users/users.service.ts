@@ -74,11 +74,14 @@ export class UsersService {
     return { user, refreshToken, accessToken };
   }
 
-  async getOneById(userId: string): Promise<User> {
+  async getOneById(
+    userId: string,
+    isRefresTokenIncluded = false,
+  ): Promise<User> {
     const user = await this.usersRepository.getOneByCondition({
       where: { id: userId },
       attributes: {
-        exclude: ['password', 'refreshToken'],
+        exclude: ['password', isRefresTokenIncluded ? null : 'refreshToken'],
       },
     });
 

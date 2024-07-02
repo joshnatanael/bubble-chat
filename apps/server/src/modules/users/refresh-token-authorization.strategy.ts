@@ -37,7 +37,7 @@ export class RefreshTokenAuthorizationStrategy extends PassportStrategy(
   }
 
   async validate(payload: any) {
-    const user = await this.usersService.getOneById(payload.userId);
+    const user = await this.usersService.getOneById(payload.userId, true);
 
     if (!user) return null;
 
