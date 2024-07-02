@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { AvatarGroup, Box, IconButton, Input, Typography } from "@mui/material";
 import {
   ChatBubbleOutlineRounded,
@@ -8,41 +8,37 @@ import {
   PeopleOutlineRounded,
   Send,
 } from "@mui/icons-material";
-import { useRouter } from "next-nprogress-bar";
 import { ChatroomCard } from "@repo/ui/chatroom-card";
 import { Avatar } from "@repo/ui/avatar";
 import { Bubble } from "@repo/ui/bubble";
 import * as S from "./messages-main.style";
+import useMessageMainLogic from "./use-message-main-logic";
+import { getUserName } from "@/lib/utils";
 
 const MessagesMain: React.FC = () => {
-  const router = useRouter();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const [anchorElChatroomOptions, setAnchorElChatroomOptions] =
-    useState<null | HTMLElement>(null);
-  const openChatroomOptions = Boolean(anchorElChatroomOptions);
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => setAnchorEl(null);
-
-  const handleClickChatroomOptions = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    setAnchorElChatroomOptions(event.currentTarget);
-  };
-  const handleCloseChatroomOptions = () => setAnchorElChatroomOptions(null);
-
-  const handleLogout = () => {
-    router.push("/logout");
-  };
+  const {
+    state: {
+      username,
+      openOptions,
+      openChatroomOptions,
+      anchorElSettings,
+      anchorElChatroomOptions,
+      chatrooms,
+    },
+    handler: {
+      handleLogout,
+      handleCloseChatroomOptions,
+      handleClickSettings,
+      handleCloseSettings,
+      handleClickChatroomOptions,
+    },
+  } = useMessageMainLogic();
 
   return (
     <S.MessagesMainRoot>
       <S.LeftSection>
         <S.Header component="header">
-          <Avatar name="John Doe" />
+          <Avatar name={username} />
 
           <S.ActionHeaderContainer>
             <S.StyledIconButton aria-label="Create new chatroom">
@@ -55,15 +51,15 @@ const MessagesMain: React.FC = () => {
 
             <S.StyledIconButton
               aria-label="Open popup options"
-              onClick={handleClick}
+              onClick={handleClickSettings}
             >
               <MoreVertRounded />
             </S.StyledIconButton>
 
             <S.PopoverMenuRoot
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
+              anchorEl={anchorElSettings}
+              open={openOptions}
+              onClose={handleCloseSettings}
             >
               <S.PopoverMenuItem role="link" onClick={handleLogout}>
                 <S.LogoutText color="error" variant="body1">
@@ -75,22 +71,15 @@ const MessagesMain: React.FC = () => {
         </S.Header>
         <S.ChatroomContainer>
           <Box sx={{ height: "200vh" }}>
-            {new Array(3).fill(null).map((el, idx) => (
+            {chatrooms.map((chatroom) => (
               <ChatroomCard
-                // eslint-disable-next-line react/no-array-index-key
-                key={idx}
+                key={chatroom.id}
                 message="You: Test"
-                name="Group Chat Name"
+                name={chatroom.name}
                 time="22.10pm"
-                users={["Remy Sharp", "Travis Howard", "Agnes Walker"]}
+                users={chatroom.users.map((user) => getUserName(user))}
               />
             ))}
-            <ChatroomCard
-              message="You: Test"
-              name="Group Chat Name"
-              time="22.10pm"
-              users={["Remy Sharp"]}
-            />
           </Box>
         </S.ChatroomContainer>
       </S.LeftSection>

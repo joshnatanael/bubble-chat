@@ -1,12 +1,13 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { baseQueryWithReauth } from "@/redux/base-query/base-query-with-reauth";
 import * as T from "./user.type";
+import { API_BASE } from "@/constants";
 
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
-    register: builder.mutation<T.RegisterArgs, T.RegisterArgs>({
+    register: builder.mutation<T.RegisterRes, T.RegisterArgs>({
       query: ({ email, firstName, lastName, password, username }) => ({
         url: "/api/auth/register",
         method: "POST",
@@ -30,7 +31,12 @@ export const userApi = createApi({
         },
       }),
     }),
+
+    currentUser: builder.query<T.CurrentUserRes, unknown>({
+      query: () => ({ url: `${API_BASE}/users/current` }),
+    }),
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation } = userApi;
+export const { useRegisterMutation, useLoginMutation, useCurrentUserQuery } =
+  userApi;

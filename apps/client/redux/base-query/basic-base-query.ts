@@ -3,7 +3,7 @@ import { CustomBaseQuery, RootState } from "@/redux/store";
 
 export const basicBaseQuery = fetchBaseQuery({
   prepareHeaders: (headers, { getState }) => {
-    const { token } = (getState() as RootState).auth;
+    const { token } = (getState() as RootState).user;
 
     if (token) {
       headers.set("authorization", `Bearer ${token}`);

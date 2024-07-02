@@ -31,7 +31,7 @@ export class ChatroomsController {
   async findAllUserChatroom(@CurrentUser() user: User) {
     const chatrooms = await this.chatroomsService.getAllByUser(user.id);
 
-    return chatrooms;
+    return { chatrooms };
   }
 
   @Post('')

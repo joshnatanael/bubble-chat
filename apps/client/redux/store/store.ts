@@ -3,18 +3,22 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import * as R from "@/redux/slices";
-import { userApi } from "../services";
+import { chatroomApi, userApi } from "../services";
 
 const reducer = {
   [userApi.reducerPath]: userApi.reducer,
-  auth: R.userReducer,
+  [chatroomApi.reducerPath]: chatroomApi.reducer,
+  user: R.userReducer,
+  chatrooms: R.chatroomReducer,
 };
 
 export const configureStoreWithMiddlewares = (initialState = {}) => {
   const enhancedStore = configureStore({
     reducer,
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(userApi.middleware),
+      getDefaultMiddleware()
+        .concat(userApi.middleware)
+        .concat(chatroomApi.middleware),
     preloadedState: initialState,
   });
 

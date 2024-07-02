@@ -1,19 +1,19 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { RootState } from "@/redux/store";
 
-const selectAuth = (state: RootState) => state.auth;
+const selectUser = (state: RootState) => state.user;
 
 export const selectAuthenticatedUser = createSelector(
-  selectAuth,
-  (auth) => auth.user,
+  selectUser,
+  (user) => user.user,
 );
 
 export const selectAccessToken = createSelector(
-  selectAuth,
-  (auth) => auth.token,
+  selectUser,
+  (user) => user.token,
 );
 
 export const selectIsLoggedIn = createSelector(
-  selectAuth,
-  (auth) => auth.isLoggedIn,
+  selectUser,
+  (user) => user.isLoggedIn,
 );

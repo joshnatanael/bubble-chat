@@ -26,3 +26,9 @@ export interface LoginRes {
   accessToken: string;
   user: UserModel;
 }
+
+// ========================== CURRENT USER ==========================
+
+export interface CurrentUserRes {
+  user: UserModel;
+}

@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
 import { createSlice } from "@reduxjs/toolkit";
 import { UserState } from "./user.type";
+import { userApi } from "@/redux/services";
 
 const initialState: UserState = {
   token: undefined,
@@ -25,6 +26,37 @@ export const userSlice = createSlice({
       state.isLoggedIn = true;
     },
   },
+  extraReducers: (builder) =>
+    builder
+      .addMatcher(
+        userApi.endpoints.register.matchFulfilled,
+        (state, { payload }) => {
+          const { user, accessToken } = payload;
+
+          const splittedToken = accessToken.split(" ")[1];
+          state.token = splittedToken;
+          state.user = user;
+          state.isLoggedIn = true;
+        },
+      )
+      .addMatcher(
+        userApi.endpoints.login.matchFulfilled,
+        (state, { payload }) => {
+          const { user, accessToken } = payload;
+
+          const splittedToken = accessToken.split(" ")[1];
+          state.token = splittedToken;
+          state.user = user;
+          state.isLoggedIn = true;
+        },
+      )
+      .addMatcher(
+        userApi.endpoints.currentUser.matchFulfilled,
+        (state, { payload }) => {
+          const { user } = payload;
+          state.user = user;
+        },
+      ),
 });
 
 export const { resetAuth, tokenReceived } = userSlice.actions;
