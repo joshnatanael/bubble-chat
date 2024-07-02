@@ -49,6 +49,14 @@ export class UsersController {
     return { user, accessToken, refreshToken };
   }
 
+  @Get('/current')
+  @UseGuards(AccessTokenGuard)
+  async getProfile(@CurrentUser() user: User) {
+    return {
+      user,
+    };
+  }
+
   @Put('/:userId')
   @UseGuards(AccessTokenGuard)
   async updateProfile(
