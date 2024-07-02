@@ -3,7 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
+    "./avatar": "./src/avatar/index.ts",
     "./button": "./src/button/index.ts",
+    "./chatroom-card": "./src/chatroom-card/index.ts",
+    "./bubble": "./src/bubble/index.ts",
+    "./popover-menu": "./src/popover-menu/index.ts",
     "./text-field": "./src/text-field/index.ts",
     "./toast": "./src/toast/index.ts"
   },
