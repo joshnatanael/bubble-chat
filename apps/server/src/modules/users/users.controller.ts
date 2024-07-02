@@ -2,25 +2,15 @@ import {
   Body,
   Controller,
   Get,
-  Param,
   Post,
   Put,
   Req,
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import {
-  UpdateStatusBodyDto,
-  UpdateStatusParamDto,
-} from './dtos/update-status.dto';
-import {
-  UpdatePasswordBodyDto,
-  UpdatePasswordParamDto,
-} from './dtos/update-password.dto';
-import {
-  UpdateProfileBodyDto,
-  UpdateProfileParamDto,
-} from './dtos/update-profile.dto';
+import { UpdateStatusBodyDto } from './dtos/update-status.dto';
+import { UpdatePasswordBodyDto } from './dtos/update-password.dto';
+import { UpdateProfileBodyDto } from './dtos/update-profile.dto';
 import { CreateUserBodyDto } from './dtos/create-user.dto';
 import { LoginUserBodyDto } from './dtos/login-user.dto';
 import { AccessTokenGuard } from './access-token.guard';
@@ -57,39 +47,36 @@ export class UsersController {
     };
   }
 
-  @Put('/:userId')
+  @Put('/')
   @UseGuards(AccessTokenGuard)
   async updateProfile(
-    @Param() param: UpdateProfileParamDto,
+    @CurrentUser() user: User,
     @Body() body: UpdateProfileBodyDto,
   ) {
-    const users = await this.usersService.updateProfile(param.userId, body);
+    const users = await this.usersService.updateProfile(user.id, body);
 
     return users;
   }
 
-  @Put('/:userId/status')
+  @Put('/status')
   @UseGuards(AccessTokenGuard)
   async updateStatus(
-    @Param() param: UpdateStatusParamDto,
+    @CurrentUser() user: User,
     @Body() body: UpdateStatusBodyDto,
   ) {
-    const users = await this.usersService.updateStatus(
-      param.userId,
-      body.status,
-    );
+    const users = await this.usersService.updateStatus(user.id, body.status);
 
     return users;
   }
 
-  @Put('/:userId/password')
+  @Put('/password')
   @UseGuards(AccessTokenGuard)
   async updatePassword(
-    @Param() param: UpdatePasswordParamDto,
+    @CurrentUser() user: User,
     @Body() body: UpdatePasswordBodyDto,
   ) {
     const users = await this.usersService.updatePassword(
-      param.userId,
+      user.id,
       body.password,
     );
 
