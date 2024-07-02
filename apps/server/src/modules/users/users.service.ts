@@ -37,7 +37,7 @@ export class UsersService {
     return this.usersRepository.getAll();
   }
 
-  async createUser(body: CreateUserBodyDto): Promise<User> {
+  async createUser(body: CreateUserBodyDto) {
     const userWithEmail = await this.usersRepository.getOneByCondition({
       where: {
         email: body.email,
@@ -68,7 +68,10 @@ export class UsersService {
 
     delete user.dataValues?.password;
 
-    return user;
+    const refreshToken = await this.invalidateRefreshToken(user.id);
+    const accessToken = this.generateAccessToken(user.id);
+
+    return { user, refreshToken, accessToken };
   }
 
   async getOneById(userId: string): Promise<User> {

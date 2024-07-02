@@ -43,9 +43,10 @@ export class UsersController {
 
   @Post('')
   async create(@Body() body: CreateUserBodyDto) {
-    const users = await this.usersService.createUser(body);
+    const { user, accessToken, refreshToken } =
+      await this.usersService.createUser(body);
 
-    return users;
+    return { user, accessToken, refreshToken };
   }
 
   @Put('/:userId')
