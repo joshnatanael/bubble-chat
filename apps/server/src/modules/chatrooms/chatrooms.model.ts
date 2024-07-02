@@ -4,6 +4,7 @@ import {
   BeforeFind,
   BelongsToMany,
   Column,
+  HasMany,
   Model,
   PrimaryKey,
   Table,
@@ -19,12 +20,15 @@ import { BelongsToManyGetAssociationsMixin } from 'sequelize';
 import { BelongsToManyHasAssociationMixin } from 'sequelize';
 import { User } from '../users/users.model';
 import { UserChatroom } from '../user-chatrooms/user-chatrooms.model';
+import { Message } from '../messages/messages.model';
+import { HasManyGetAssociationsMixin } from 'sequelize';
 
 export interface ChatroomAttributes {
   id: string;
   name?: string;
   picture: string;
   users?: Array<User & { UserChatroom: UserChatroom }>;
+  messages?: Array<Message>;
 }
 
 export type ChatroomCreationAttributes = Optional<ChatroomAttributes, 'id'>;
@@ -38,6 +42,7 @@ export class Chatroom extends Model<
   declare removeUser: BelongsToManyRemoveAssociationMixin<User, 'id'>;
   declare getUsers: BelongsToManyGetAssociationsMixin<User>;
   declare hasUser: BelongsToManyHasAssociationMixin<User, 'id'>;
+  declare getMessages: HasManyGetAssociationsMixin<Message>;
 
   @PrimaryKey
   @Column({
@@ -54,6 +59,9 @@ export class Chatroom extends Model<
 
   @BelongsToMany(() => User, () => UserChatroom)
   users?: Array<User & { UserChatroom: UserChatroom }>;
+
+  @HasMany(() => Message)
+  messages?: Message[];
 
   @BeforeFind
   static BeforeFindUUID(options: any) {

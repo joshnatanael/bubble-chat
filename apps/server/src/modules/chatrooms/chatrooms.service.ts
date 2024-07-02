@@ -7,6 +7,7 @@ import { Attributes, FindOptions, Transaction } from 'sequelize';
 import { UpdateChatroomBodyDto } from './dtos/update-chatroom.dto';
 import { UsersService } from '../users/users.service';
 import { User } from '../users/users.model';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class ChatroomsService {
@@ -18,7 +19,7 @@ export class ChatroomsService {
 
   async getAllByUser(userId: string): Promise<Chatroom[]> {
     const user = await this.usersService.getOneById(userId);
-    return await user.getChatrooms({
+    const chatrooms = await user.getChatrooms({
       include: [
         {
           model: User,
@@ -26,9 +27,29 @@ export class ChatroomsService {
             exclude: ['password', 'refreshToken'],
           },
           through: { attributes: [] },
+          where: {
+            [Op.not]: {
+              id: userId,
+            },
+          },
         },
       ],
     });
+
+    const chatroomsWithLatestMessage = await Promise.all(
+      chatrooms.map(async (chatroom) => {
+        const latestMessage = await chatroom.getMessages({
+          limit: 1,
+          order: [['createdAt', 'DESC']],
+        });
+
+        chatroom.setDataValue('messages', latestMessage);
+
+        return chatroom;
+      }),
+    );
+
+    return chatroomsWithLatestMessage;
   }
 
   async getOneById(chatroomId: string): Promise<Chatroom> {
@@ -96,7 +117,10 @@ export class ChatroomsService {
   async getChatroomDetails(userId: string, chatroomId: string) {
     const chatroom = await this.getOneByCondition({
       where: { id: chatroomId },
-      include: { model: User },
+      include: {
+        model: User,
+        attributes: { exclude: ['refreshToken', 'password'] },
+      },
     });
 
     const isUserInChatroom = chatroom.users.find((user) => user.id === userId);
