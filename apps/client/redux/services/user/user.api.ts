@@ -19,7 +19,18 @@ export const userApi = createApi({
         },
       }),
     }),
+
+    login: builder.mutation<T.LoginRes, T.LoginArgs>({
+      query: ({ credential, password }) => ({
+        url: "/api/auth/login",
+        method: "POST",
+        body: {
+          credential,
+          password,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useRegisterMutation } = userApi;
+export const { useRegisterMutation, useLoginMutation } = userApi;

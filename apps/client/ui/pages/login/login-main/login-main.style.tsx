@@ -3,7 +3,7 @@ import { Button } from "@repo/ui/button";
 import { TextField } from "@repo/ui/text-field";
 import Image from "next/image";
 
-export const RegisterMainRoot = styled(Box, { name: "RegisterMainRoot" })(
+export const LoginMainRoot = styled(Box, { name: "LoginMainRoot" })(
   ({ theme }) => ({
     minHeight: "100%",
     display: "flex",
@@ -15,8 +15,8 @@ export const RegisterMainRoot = styled(Box, { name: "RegisterMainRoot" })(
   }),
 );
 
-export const RegisterImageSection = styled(Box, {
-  name: "RegisterImageSection",
+export const LoginImageSection = styled(Box, {
+  name: "LoginImageSection",
 })(({ theme }) => ({
   position: "relative",
   display: "flex",
@@ -27,8 +27,8 @@ export const RegisterImageSection = styled(Box, {
   },
 }));
 
-export const RegisterImage = styled(Image, {
-  name: "RegisterImage",
+export const LoginImage = styled(Image, {
+  name: "LoginImage",
 })(() => ({
   objectFit: "cover",
 }));
@@ -75,8 +75,8 @@ export const BubbleTitle = styled(Typography, {
   marginBottom: 18,
 }));
 
-export const RegisterFormSection = styled(Box, {
-  name: "RegisterFormSection",
+export const LoginFormSection = styled(Box, {
+  name: "LoginFormSection",
 })(({ theme }) => ({
   minHeight: "100%",
   display: "flex",
@@ -87,8 +87,8 @@ export const RegisterFormSection = styled(Box, {
   },
 }));
 
-export const RegisterFormContainer = styled(Box, {
-  name: "RegisterFormContainer",
+export const LoginFormContainer = styled(Box, {
+  name: "LoginFormContainer",
 })(({ theme }) => ({
   padding: 24,
   width: "100%",
@@ -100,13 +100,13 @@ export const RegisterFormContainer = styled(Box, {
   },
 }));
 
-export const RegisterTitle = styled(Typography, {
-  name: "RegisterTitle",
+export const LoginTitle = styled(Typography, {
+  name: "LoginTitle",
 })(() => ({
   marginBottom: 4,
 })) as typeof Typography;
 
-export const SigninText = styled(Typography, { name: "SigninText" })(
+export const RegisterText = styled(Typography, { name: "RegisterText" })(
   ({ theme }) => ({
     color: theme.palette.primary.main,
     fontWeight: theme.typography.fontWeightBold,
@@ -114,8 +114,8 @@ export const SigninText = styled(Typography, { name: "SigninText" })(
   }),
 ) as typeof Typography;
 
-export const RegisterForm = styled(Box, {
-  name: "RegisterForm",
+export const LoginForm = styled(Box, {
+  name: "LoginForm",
 })(() => ({
   marginTop: 36,
 }));
@@ -126,22 +126,8 @@ export const StyledTextField = styled(TextField, {
   marginBottom: 36,
 }));
 
-export const NameFieldContainer = styled(Box, {
-  name: "NameFieldContainer",
-})(() => ({
-  display: "flex",
-  marginRight: -20,
-}));
-
-export const NameField = styled(TextField, {
-  name: "NameField",
-})(() => ({
-  marginBottom: 36,
-  marginRight: 20,
-}));
-
-export const RegisterButtonContainer = styled(Box, {
-  name: "RegisterButtonContainer",
+export const LoginButtonContainer = styled(Box, {
+  name: "LoginButtonContainer",
 })(({ theme }) => ({
   display: "flex",
   gap: 20,
@@ -153,8 +139,8 @@ export const RegisterButtonContainer = styled(Box, {
   },
 }));
 
-export const RegisterButton = styled(Button, {
-  name: "RegisterButton",
+export const LoginButton = styled(Button, {
+  name: "LoginButton",
 })(({ theme }) => ({
   flexBasis: "100%",
 
