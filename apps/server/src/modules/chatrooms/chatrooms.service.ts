@@ -41,6 +41,12 @@ export class ChatroomsService {
         const latestMessage = await chatroom.getMessages({
           limit: 1,
           order: [['createdAt', 'DESC']],
+          include: [
+            {
+              model: User,
+              attributes: ['firstName', 'lastName', 'email'],
+            },
+          ],
         });
 
         chatroom.setDataValue('messages', latestMessage);

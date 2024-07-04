@@ -74,7 +74,7 @@ const MessagesMain: React.FC = () => {
             {chatrooms.map((chatroom) => (
               <ChatroomCard
                 key={chatroom.id}
-                message="You: Test"
+                message={`${getUserName(chatroom.messages[0]?.user)}: ${chatroom.messages[0]?.content}`}
                 name={chatroom.name}
                 time="22.10pm"
                 users={chatroom.users.map((user) => getUserName(user))}
