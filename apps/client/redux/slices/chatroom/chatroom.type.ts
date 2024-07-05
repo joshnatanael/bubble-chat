@@ -5,6 +5,7 @@ export interface MessageModel {
   content: string;
   user: UserModel;
   isDeleted: boolean;
+  createdAt: string;
 }
 
 export interface ChatroomModel {
