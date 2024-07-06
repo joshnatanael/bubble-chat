@@ -35,8 +35,16 @@ export const userApi = createApi({
     currentUser: builder.query<T.CurrentUserRes, unknown>({
       query: () => ({ url: `${API_BASE}/users/current` }),
     }),
+
+    logout: builder.query({
+      query: () => ({ url: `/api/auth/logout` }),
+    }),
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation, useCurrentUserQuery } =
-  userApi;
+export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useCurrentUserQuery,
+  useLogoutQuery,
+} = userApi;

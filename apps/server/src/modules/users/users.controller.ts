@@ -17,7 +17,6 @@ import { AccessTokenGuard } from './access-token.guard';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { User } from './users.model';
 import { RefreshTokenAuthorizationGuard } from './refresh-token-authorization.guard';
-import { RefreshTokenGuard } from './refresh-token.guard';
 
 @Controller('users')
 export class UsersController {
@@ -112,7 +111,7 @@ export class UsersController {
   }
 
   @Get('/logout')
-  @UseGuards(RefreshTokenGuard)
+  @UseGuards(RefreshTokenAuthorizationGuard)
   async logout(@CurrentUser() user: User) {
     await this.usersService.logout(user);
 

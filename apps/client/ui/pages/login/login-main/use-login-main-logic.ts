@@ -6,6 +6,7 @@ import { useRouter } from "next-nprogress-bar";
 import useLoginMainRedux from "./use-login-main-redux";
 import { useToast } from "@/lib/hooks";
 import { parseRtkError } from "@/lib/utils";
+import { useLogoutQuery } from "@/redux/services";
 
 const LoginSchema = yup.object().shape({
   credential: yup
@@ -22,6 +23,8 @@ const useLoginMainLogic = () => {
   const { onSubmit, reduxState } = useLoginMainRedux();
   const { showToast } = useToast();
   const router = useRouter();
+
+  useLogoutQuery({}, { refetchOnMountOrArgChange: true });
 
   const form = useForm({
     mode: "onSubmit",
