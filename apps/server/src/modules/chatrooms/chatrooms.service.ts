@@ -94,20 +94,21 @@ export class ChatroomsService {
         ),
       );
 
-      const chatroomName = (() => {
-        if (!!body.name) return body.name;
-        return users
-          .map((user) => {
-            if (!user.firstName) return user.email;
-            return `${user.firstName}${user.lastName ? ` ${user.lastName}` : ''}`;
-          })
-          .join(', ');
-      })();
+      const chatroomAlternativeName = users
+        .map((user) => {
+          if (!user.firstName) return user.email;
+          return `${user.firstName}${user.lastName ? ` ${user.lastName}` : ''}`;
+        })
+        .join(', ');
 
       return this.sequelize.transaction(async (t) => {
-        const chatroom = await this.chatroomsRepository.create(chatroomName, {
-          transaction: t,
-        });
+        const chatroom = await this.chatroomsRepository.create(
+          chatroomAlternativeName,
+          body.name,
+          {
+            transaction: t,
+          },
+        );
 
         await chatroom.addUsers(users, { transaction: t });
 

@@ -16,10 +16,11 @@ export class ChatroomsRepository {
   }
 
   create(
-    name: string,
+    alternativeName: string,
+    name?: string,
     options?: CreateOptions<Attributes<Chatroom>>,
   ): Promise<Chatroom> {
-    return this.chatroomModel.create({ name }, { ...options });
+    return this.chatroomModel.create({ name, alternativeName }, { ...options });
   }
 
   getOneById(chatroomId: string): Promise<Chatroom | null> {

@@ -26,6 +26,7 @@ import { HasManyGetAssociationsMixin } from 'sequelize';
 export interface ChatroomAttributes {
   id: string;
   name?: string;
+  alternativeName: string;
   picture: string;
   users?: Array<User & { UserChatroom: UserChatroom }>;
   messages?: Array<Message>;
@@ -53,6 +54,9 @@ export class Chatroom extends Model<
 
   @Column
   name?: string;
+
+  @Column
+  alternativeName: string;
 
   @Column
   picture?: string;
