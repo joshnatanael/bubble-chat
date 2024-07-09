@@ -11,10 +11,9 @@ import {
 import { ChatroomCard } from "@repo/ui/chatroom-card";
 import { Avatar } from "@repo/ui/avatar";
 import { Bubble } from "@repo/ui/bubble";
-import dayjs from "dayjs";
 import * as S from "./messages-main.style";
 import useMessageMainLogic from "./use-message-main-logic";
-import { getUserName } from "@/lib/utils";
+import { getLastMessageFormat, getTimeMessageFormat } from "@/lib/utils";
 
 const MessagesMain: React.FC = () => {
   const {
@@ -75,17 +74,10 @@ const MessagesMain: React.FC = () => {
             {chatrooms.map((chatroom) => (
               <ChatroomCard
                 key={chatroom.id}
-                message={`${getUserName(chatroom.messages[0]?.user)}: ${chatroom.messages[0]?.content}`}
-                name={chatroom.name}
-                time={dayjs(chatroom.messages[0]?.createdAt).format(
-                  dayjs(chatroom.messages[0]?.createdAt).diff(
-                    new Date(),
-                    "day",
-                  ) === 0
-                    ? "h:ma"
-                    : "DD/MM/YYYY",
-                )}
-                users={chatroom.users.map((user) => getUserName(user))}
+                message={getLastMessageFormat(chatroom.messages?.[0])}
+                name={chatroom.name || chatroom.alternativeName}
+                time={getTimeMessageFormat(chatroom.messages?.[0])}
+                users={chatroom.alternativeName.split(", ")}
               />
             ))}
           </Box>

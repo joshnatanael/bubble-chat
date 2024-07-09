@@ -10,7 +10,8 @@ export interface MessageModel {
 
 export interface ChatroomModel {
   id: string;
-  name: string;
+  name?: string;
+  alternativeName: string;
   picture: string;
   messages: MessageModel[];
   users: UserModel[];
