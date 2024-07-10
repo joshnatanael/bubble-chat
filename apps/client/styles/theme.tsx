@@ -103,11 +103,8 @@ const baseTheme = createTheme({
       white: "#FFFFFF",
     },
     background: {
-      green: "#E5F9EA",
-      blue: "#EBF3FD",
-      purple: "#F3E7FF",
-      yellow: "#FFE6A7",
-      red: "#FDEAED",
+      blue: "#34495e",
+      navy: "#2c3e50",
     },
   },
   shadows: [

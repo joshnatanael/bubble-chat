@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { AvatarGroup, Box, IconButton, Input, Typography } from "@mui/material";
+import { AvatarGroup, Box, Typography } from "@mui/material";
 import {
   ChatBubbleOutlineRounded,
   MoreVertRounded,
@@ -14,8 +14,11 @@ import { Bubble } from "@repo/ui/bubble";
 import * as S from "./messages-main.style";
 import useMessageMainLogic from "./use-message-main-logic";
 import { getLastMessageFormat, getTimeMessageFormat } from "@/lib/utils";
+import { MessagesMainProps } from "./messages-main.type";
 
-const MessagesMain: React.FC = () => {
+const MessagesMain: React.FC<MessagesMainProps> = (props) => {
+  const { chatroomId, ...otherProps } = props;
+
   const {
     state: {
       username,
@@ -31,11 +34,12 @@ const MessagesMain: React.FC = () => {
       handleClickSettings,
       handleCloseSettings,
       handleClickChatroomOptions,
+      handleClickChatroom,
     },
   } = useMessageMainLogic();
 
   return (
-    <S.MessagesMainRoot>
+    <S.MessagesMainRoot {...otherProps}>
       <S.LeftSection>
         <S.Header component="header">
           <Avatar name={username} />
@@ -78,6 +82,7 @@ const MessagesMain: React.FC = () => {
                 name={chatroom.name || chatroom.alternativeName}
                 time={getTimeMessageFormat(chatroom.messages?.[0])}
                 users={chatroom.alternativeName.split(", ")}
+                onClick={() => handleClickChatroom(chatroom.id)}
               />
             ))}
           </Box>
@@ -132,15 +137,10 @@ const MessagesMain: React.FC = () => {
         </S.MessagesContainer>
 
         <S.ChatroomInputContainer>
-          <Input
-            endAdornment={
-              <IconButton>
-                <Send />
-              </IconButton>
-            }
-            fullWidth
-            placeholder="Type a message"
-          />
+          <S.StyledInput fullWidth placeholder="Type a message" />
+          <S.SendButton>
+            <Send />
+          </S.SendButton>
         </S.ChatroomInputContainer>
       </S.RightSection>
     </S.MessagesMainRoot>

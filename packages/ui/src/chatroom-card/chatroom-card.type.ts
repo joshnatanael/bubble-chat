@@ -3,4 +3,5 @@ export interface ChatroomCardProps {
   users: string[];
   time?: string;
   message?: string;
+  onClick?: () => void;
 }

@@ -24,11 +24,8 @@ declare module "@mui/material/styles" {
   }
 
   interface TypeBackground {
-    green?: string;
+    navy?: string;
     blue?: string;
-    purple?: string;
-    yellow?: string;
-    red?: string;
   }
 
   interface PaletteOptions {

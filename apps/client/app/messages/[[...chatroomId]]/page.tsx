@@ -9,10 +9,10 @@ export const metadata: Metadata = {
     "Start chatting now! Send messages with Bubble Chat to connect and communicate instantly.",
 };
 
-const Page: React.FC = () => {
+const Page = ({ params }: { params: { chatroomId?: string[] } }) => {
   return (
     <LoginGuard>
-      <MessagesMain />
+      <MessagesMain chatroomId={params.chatroomId?.[0]} />
     </LoginGuard>
   );
 };

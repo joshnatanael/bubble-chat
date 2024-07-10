@@ -39,6 +39,10 @@ const useMessageMainLogic = () => {
     router.push("/logout");
   };
 
+  const handleClickChatroom = (chatroomId: string) => {
+    router.push(`/messages/${chatroomId}`);
+  };
+
   useEffect(() => {
     if (reduxState.isError && reduxState.error) {
       showToast(parseRtkError(reduxState.error));
@@ -60,6 +64,7 @@ const useMessageMainLogic = () => {
       handleClickSettings,
       handleCloseSettings,
       handleClickChatroomOptions,
+      handleClickChatroom,
     },
   };
 };

@@ -5,10 +5,10 @@ import { ChatroomCardProps } from "./chatroom-card.type";
 import { Avatar } from "../avatar";
 
 const ChatroomCard: React.FC<ChatroomCardProps> = (props) => {
-  const { message, name, time, users, ...otherProps } = props;
+  const { message, name, time, users, onClick, ...otherProps } = props;
 
   return (
-    <S.ChatroomCardRoot {...otherProps}>
+    <S.ChatroomCardRoot onClick={onClick} {...otherProps}>
       <AvatarGroup max={2}>
         {users.map((user) => (
           <Avatar key={user} name={user} />
@@ -16,7 +16,7 @@ const ChatroomCard: React.FC<ChatroomCardProps> = (props) => {
       </AvatarGroup>
       <S.TextContainer>
         <S.NameTimeContainer>
-          <Typography>{name}</Typography>
+          <S.ChatroomNameText>{name}</S.ChatroomNameText>
           <S.TimeText>{time}</S.TimeText>
         </S.NameTimeContainer>
 

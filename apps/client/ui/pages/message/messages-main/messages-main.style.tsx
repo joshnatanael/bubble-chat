@@ -1,10 +1,18 @@
-import { Box, IconButton, MenuItem, Typography, styled } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  Input,
+  MenuItem,
+  Typography,
+  styled,
+} from "@mui/material";
 import { PopoverMenu } from "@repo/ui/popover-menu";
 
 export const MessagesMainRoot = styled(Box, { name: "MessagesMainRoot" })(
-  () => ({
+  ({ theme }) => ({
     display: "flex",
     height: "100%",
+    backgroundColor: theme.palette.background.blue,
   }),
 );
 
@@ -18,7 +26,8 @@ export const Header = styled(Box, { name: "Header" })(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  backgroundColor: theme.palette.yellow[100],
+  backgroundColor: theme.palette.background.navy,
+  color: theme.palette.common.white,
 }));
 
 export const ActionHeaderContainer = styled(Box, {
@@ -31,8 +40,9 @@ export const ActionHeaderContainer = styled(Box, {
 
 export const StyledIconButton = styled(IconButton, {
   name: "StyledIconButton",
-})(() => ({
+})(({ theme }) => ({
   marginLeft: 8,
+  color: theme.palette.common.white,
 }));
 
 export const ChatroomContainer = styled(Box, { name: "ChatroomContainer" })(
@@ -67,7 +77,7 @@ export const LogoutText = styled(Typography, { name: "LogoutText" })(
 export const RightSection = styled(Box, { name: "RightSection" })(
   ({ theme }) => ({
     flexBasis: "70%",
-    borderLeft: `1px solid ${theme.palette.grey[200]}`,
+    borderLeft: `1px solid ${theme.palette.grey[300]}`,
     display: "flex",
     flexDirection: "column",
   }),
@@ -90,6 +100,34 @@ export const MessagesContainer = styled(Box, {
 
 export const ChatroomInputContainer = styled(Box, {
   name: "ChatroomInputContainer",
-})(() => ({
-  padding: 24,
+})(({ theme }) => ({
+  padding: 18,
+  backgroundColor: theme.palette.background.navy,
+  display: "flex",
+  gap: 12,
+}));
+
+export const StyledInput = styled(Input, {
+  name: "StyledInput",
+})(({ theme }) => ({
+  backgroundColor: theme.palette.background.blue,
+  color: theme.palette.common.white,
+  borderRadius: 12,
+
+  "&.MuiInputBase-root:before": {
+    borderBottom: "unset !important",
+  },
+  "&.MuiInputBase-root:after": {
+    borderBottom: "unset !important",
+  },
+  ".MuiInput-input": {
+    padding: "8px 12px",
+  },
+}));
+
+export const SendButton = styled(IconButton, {
+  name: "SendButton",
+})(({ theme }) => ({
+  backgroundColor: theme.palette.common.white,
+  color: theme.palette.primary.main,
 }));
