@@ -11,6 +11,8 @@ import {
 import { ChatroomCard } from "@repo/ui/chatroom-card";
 import { Avatar } from "@repo/ui/avatar";
 import { Bubble } from "@repo/ui/bubble";
+import { RenderIf } from "@repo/ui/render-if";
+import NoChatroomSelected from "public/svgs/no-chatroom-selected.svg";
 import * as S from "./messages-main.style";
 import useMessageMainLogic from "./use-message-main-logic";
 import { getLastMessageFormat, getTimeMessageFormat } from "@/lib/utils";
@@ -90,58 +92,80 @@ const MessagesMain: React.FC<MessagesMainProps> = (props) => {
       </S.LeftSection>
 
       <S.RightSection>
-        <S.Header>
-          <S.ChatroomLeftHeader>
-            <AvatarGroup max={3}>
-              <Avatar name="John Doe" />
-              <Avatar name="John Doe" />
-              <Avatar name="John Doe" />
-            </AvatarGroup>
+        <RenderIf isTrue={!chatroomId}>
+          <S.NoChatroomSelectedSection>
             <Box>
-              <Typography component="h2" variant="h5">
-                Group chat
-              </Typography>
-
-              <Typography variant="body2">
-                John Doe, John Doe, John Doe
+              <S.NoChatroomImageContainer>
+                <S.NoChatroomImage
+                  alt="No Chatroom Selected"
+                  fill
+                  priority
+                  src={NoChatroomSelected}
+                />
+              </S.NoChatroomImageContainer>
+              <S.NoChatroomText variant="h3">
+                No chatroom selected
+              </S.NoChatroomText>
+              <Typography>
+                Please select a chatroom to view messages.
               </Typography>
             </Box>
-          </S.ChatroomLeftHeader>
+          </S.NoChatroomSelectedSection>
+        </RenderIf>
+        <RenderIf isTrue={!!chatroomId}>
+          <S.Header>
+            <S.ChatroomLeftHeader>
+              <AvatarGroup max={3}>
+                <Avatar name="John Doe" />
+                <Avatar name="John Doe" />
+                <Avatar name="John Doe" />
+              </AvatarGroup>
+              <Box>
+                <Typography component="h2" variant="h5">
+                  Group chat
+                </Typography>
 
-          <S.ActionHeaderContainer>
-            <S.StyledIconButton
-              aria-label="Open popup options"
-              onClick={handleClickChatroomOptions}
-            >
-              <MoreVertRounded />
-            </S.StyledIconButton>
+                <Typography variant="body2">
+                  John Doe, John Doe, John Doe
+                </Typography>
+              </Box>
+            </S.ChatroomLeftHeader>
 
-            <S.PopoverMenuRoot
-              anchorEl={anchorElChatroomOptions}
-              open={openChatroomOptions}
-              onClose={handleCloseChatroomOptions}
-            >
-              <S.PopoverMenuItem role="link" onClick={handleLogout}>
-                <S.LogoutText color="error" variant="body1">
-                  Leave Chatroom
-                </S.LogoutText>
-              </S.PopoverMenuItem>
-            </S.PopoverMenuRoot>
-          </S.ActionHeaderContainer>
-        </S.Header>
+            <S.ActionHeaderContainer>
+              <S.StyledIconButton
+                aria-label="Open popup options"
+                onClick={handleClickChatroomOptions}
+              >
+                <MoreVertRounded />
+              </S.StyledIconButton>
 
-        <S.MessagesContainer>
-          <Bubble content="Test" isUserMessage time="2:10pm" />
-          <Bubble content="Test" isUserMessage={false} time="2:10pm" />
-          <Box sx={{ height: "200vh" }} />
-        </S.MessagesContainer>
+              <S.PopoverMenuRoot
+                anchorEl={anchorElChatroomOptions}
+                open={openChatroomOptions}
+                onClose={handleCloseChatroomOptions}
+              >
+                <S.PopoverMenuItem role="link" onClick={handleLogout}>
+                  <S.LogoutText color="error" variant="body1">
+                    Leave Chatroom
+                  </S.LogoutText>
+                </S.PopoverMenuItem>
+              </S.PopoverMenuRoot>
+            </S.ActionHeaderContainer>
+          </S.Header>
 
-        <S.ChatroomInputContainer>
-          <S.StyledInput fullWidth placeholder="Type a message" />
-          <S.SendButton>
-            <Send />
-          </S.SendButton>
-        </S.ChatroomInputContainer>
+          <S.MessagesContainer>
+            <Bubble content="Test" isUserMessage time="2:10pm" />
+            <Bubble content="Test" isUserMessage={false} time="2:10pm" />
+            <Box sx={{ height: "200vh" }} />
+          </S.MessagesContainer>
+
+          <S.ChatroomInputContainer>
+            <S.StyledInput fullWidth placeholder="Type a message" />
+            <S.SendButton>
+              <Send />
+            </S.SendButton>
+          </S.ChatroomInputContainer>
+        </RenderIf>
       </S.RightSection>
     </S.MessagesMainRoot>
   );

@@ -7,6 +7,7 @@ import {
   styled,
 } from "@mui/material";
 import { PopoverMenu } from "@repo/ui/popover-menu";
+import Image from "next/image";
 
 export const MessagesMainRoot = styled(Box, { name: "MessagesMainRoot" })(
   ({ theme }) => ({
@@ -130,4 +131,35 @@ export const SendButton = styled(IconButton, {
 })(({ theme }) => ({
   backgroundColor: theme.palette.common.white,
   color: theme.palette.primary.main,
+}));
+
+export const NoChatroomSelectedSection = styled(Box, {
+  name: "NoChatroomSelectedSection",
+})(({ theme }) => ({
+  height: "100%",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  color: theme.palette.common.white,
+}));
+
+export const NoChatroomImageContainer = styled(Box, {
+  name: "NoChatroomImageContainer",
+})(() => ({
+  position: "relative",
+  width: 200,
+  height: 200,
+  margin: "0 auto 24px",
+}));
+
+export const NoChatroomImage = styled(Image, {
+  name: "NoChatroomImage",
+})(() => ({
+  objectFit: "contain",
+}));
+
+export const NoChatroomText = styled(Typography, {
+  name: "NoChatroomText",
+})(() => ({
+  textAlign: "center",
 }));

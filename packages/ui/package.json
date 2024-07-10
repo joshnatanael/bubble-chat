@@ -8,6 +8,7 @@
     "./chatroom-card": "./src/chatroom-card/index.ts",
     "./bubble": "./src/bubble/index.ts",
     "./popover-menu": "./src/popover-menu/index.ts",
+    "./render-if": "./src/render-if/index.ts",
     "./text-field": "./src/text-field/index.ts",
     "./toast": "./src/toast/index.ts"
   },

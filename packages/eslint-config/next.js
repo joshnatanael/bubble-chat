@@ -77,6 +77,7 @@ module.exports = {
           ts: 'never',
           tsx: 'never',
           png: 'always',
+          svg: 'always',
         },
       },
     ],
