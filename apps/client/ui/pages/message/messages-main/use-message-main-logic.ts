@@ -17,9 +17,6 @@ const useMessageMainLogic = () => {
     null,
   );
   const openOptions = Boolean(anchorElSettings);
-  const [anchorElChatroomOptions, setAnchorElChatroomOptions] =
-    useState<null | HTMLElement>(null);
-  const openChatroomOptions = Boolean(anchorElChatroomOptions);
 
   const reduxState = useFetchChatroomsQuery({});
 
@@ -27,13 +24,6 @@ const useMessageMainLogic = () => {
     setAnchorElSettings(event.currentTarget);
   };
   const handleCloseSettings = () => setAnchorElSettings(null);
-
-  const handleClickChatroomOptions = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    setAnchorElChatroomOptions(event.currentTarget);
-  };
-  const handleCloseChatroomOptions = () => setAnchorElChatroomOptions(null);
 
   const handleLogout = () => {
     router.push("/logout");
@@ -53,17 +43,13 @@ const useMessageMainLogic = () => {
     state: {
       username,
       openOptions,
-      openChatroomOptions,
       anchorElSettings,
-      anchorElChatroomOptions,
       chatrooms,
     },
     handler: {
       handleLogout,
-      handleCloseChatroomOptions,
       handleClickSettings,
       handleCloseSettings,
-      handleClickChatroomOptions,
       handleClickChatroom,
     },
   };
