@@ -19,7 +19,7 @@ const ChatroomContent: React.FC<ChatroomContentProps> = (props) => {
       handleClickChatroomOptions,
       handleLeaveChatroom,
     },
-  } = useChatroomContentLogic();
+  } = useChatroomContentLogic(chatroomId);
 
   return (
     <>

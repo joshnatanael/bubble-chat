@@ -51,7 +51,12 @@ export class ChatroomsController {
     @CurrentUser() user: User,
     @Param() params: GetChatroomDetailsParamDto,
   ) {
-    return this.chatroomsService.getChatroomDetails(user.id, params.chatroomId);
+    const chatroom = await this.chatroomsService.getChatroomDetails(
+      user.id,
+      params.chatroomId,
+    );
+
+    return { chatroom };
   }
 
   @Delete('/:chatroomId')

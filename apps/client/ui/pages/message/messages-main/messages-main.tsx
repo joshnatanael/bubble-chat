@@ -71,7 +71,7 @@ const MessagesMain: React.FC<MessagesMainProps> = (props) => {
                 message={getLastMessageFormat(chatroom.messages?.[0])}
                 name={chatroom.name || chatroom.alternativeName}
                 time={getTimeMessageFormat(chatroom.messages?.[0])}
-                users={chatroom.alternativeName.split(", ")}
+                users={chatroom.alternativeName?.split(", ") || []}
                 onClick={() => handleClickChatroom(chatroom.id)}
               />
             ))}

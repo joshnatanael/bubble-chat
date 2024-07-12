@@ -18,7 +18,20 @@ export const chatroomApi = createApi({
         return normalize(response.chatrooms || {}, [chatroomEntity]).entities;
       },
     }),
+    fetchChatroomDetails: builder.query<
+      T.NormalizedFetchChatroomDetailsRes,
+      T.FetchChatroomDetailsArgs
+    >({
+      query: ({ chatroomId }) => ({
+        url: `${API_BASE}/chatrooms/${chatroomId}`,
+        method: "GET",
+      }),
+      transformResponse: (response: T.FetchChatroomDetailsRes) => {
+        return normalize(response.chatroom || {}, chatroomEntity).entities;
+      },
+    }),
   }),
 });
 
-export const { useFetchChatroomsQuery } = chatroomApi;
+export const { useFetchChatroomsQuery, useFetchChatroomDetailsQuery } =
+  chatroomApi;

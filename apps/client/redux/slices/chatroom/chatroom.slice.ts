@@ -11,14 +11,29 @@ const chatroomSlice = createSlice({
   }),
   reducers: {},
   extraReducers: (builder) => {
-    builder.addMatcher(
-      chatroomApi.endpoints.fetchChatrooms.matchFulfilled,
-      (state, action) => {
-        const { chatrooms = {} } = action.payload;
+    builder
+      .addMatcher(
+        chatroomApi.endpoints.fetchChatrooms.matchFulfilled,
+        (state, action) => {
+          const { chatrooms = {} } = action.payload;
 
-        chatroomAdapter.setAll(state, chatrooms);
-      },
-    );
+          chatroomAdapter.setAll(state, chatrooms);
+        },
+      )
+      .addMatcher(
+        chatroomApi.endpoints.fetchChatroomDetails.matchFulfilled,
+        (state, action) => {
+          const { chatrooms = {} } = action.payload;
+
+          chatroomAdapter.upsertMany(state, chatrooms);
+
+          const { chatroomId } = action.meta.arg.originalArgs;
+
+          if (!chatroomId) return;
+
+          state.selectedChatroomId = chatroomId;
+        },
+      );
   },
 });
 
