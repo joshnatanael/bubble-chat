@@ -13,7 +13,7 @@ const ChatroomContent: React.FC<ChatroomContentProps> = (props) => {
   const { chatroomId } = props;
 
   const {
-    state: { openChatroomOptions, anchorElChatroomOptions },
+    state: { openChatroomOptions, anchorElChatroomOptions, chatroom },
     handler: {
       handleCloseChatroomOptions,
       handleClickChatroomOptions,
@@ -46,17 +46,17 @@ const ChatroomContent: React.FC<ChatroomContentProps> = (props) => {
         <S.Header>
           <S.ChatroomLeftHeader>
             <AvatarGroup max={3}>
-              <Avatar name="John Doe" />
-              <Avatar name="John Doe" />
-              <Avatar name="John Doe" />
+              {chatroom?.alternativeName
+                .split(", ")
+                .map((user) => <Avatar key={user} name={user} />)}
             </AvatarGroup>
             <Box>
               <Typography component="h2" variant="h5">
-                Group chat
+                {chatroom?.name || chatroom?.alternativeName}
               </Typography>
 
               <Typography variant="body2">
-                John Doe, John Doe, John Doe
+                {chatroom?.alternativeName}
               </Typography>
             </Box>
           </S.ChatroomLeftHeader>

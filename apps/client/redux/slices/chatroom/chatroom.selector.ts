@@ -18,3 +18,17 @@ export const selectChatroomById = memoize((chatroomId?: string) =>
     (chatroomEntities) => chatroomEntities[chatroomId || ""] || null,
   ),
 );
+
+const selectChatrooms = (state: RootState) => state.chatrooms;
+
+export const selectSelectedChatroomId = createSelector(
+  selectChatrooms,
+  (chatrooms) => chatrooms.selectedChatroomId,
+);
+
+export const selectSelectedChatroom = createSelector(
+  selectSelectedChatroomId,
+  selectEntities,
+  (selectedChatroomId, chatroomEntities) =>
+    chatroomEntities[selectedChatroomId || ""] || null,
+);
