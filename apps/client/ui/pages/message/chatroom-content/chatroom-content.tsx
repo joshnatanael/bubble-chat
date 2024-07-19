@@ -5,6 +5,7 @@ import NoChatroomSelected from "public/svgs/no-chatroom-selected.svg";
 import { MoreVertRounded, Send } from "@mui/icons-material";
 import { Bubble } from "@repo/ui/bubble";
 import { Avatar } from "@repo/ui/avatar";
+import { Controller } from "react-hook-form";
 import { ChatroomContentProps } from "./chatroom-content.type";
 import * as S from "./chatroom-content.style";
 import useChatroomContentLogic from "./use-chatroom-content-logic";
@@ -13,13 +14,16 @@ const ChatroomContent: React.FC<ChatroomContentProps> = (props) => {
   const { chatroomId } = props;
 
   const {
+    form,
     state: { openChatroomOptions, anchorElChatroomOptions, chatroom },
     handler: {
       handleCloseChatroomOptions,
       handleClickChatroomOptions,
       handleLeaveChatroom,
+      handleSendMessage,
     },
   } = useChatroomContentLogic(chatroomId);
+  const { handleSubmit, control } = form;
 
   return (
     <>
@@ -89,9 +93,23 @@ const ChatroomContent: React.FC<ChatroomContentProps> = (props) => {
           <Box sx={{ height: "200vh" }} />
         </S.MessagesContainer>
 
-        <S.ChatroomInputContainer>
-          <S.StyledInput fullWidth placeholder="Type a message" />
-          <S.SendButton>
+        <S.ChatroomInputContainer
+          component="form"
+          onSubmit={handleSubmit(handleSendMessage)}
+        >
+          <Controller
+            control={control}
+            name="content"
+            render={({ field }) => (
+              <S.StyledInput
+                autoComplete="off"
+                fullWidth
+                placeholder="Type a message"
+                {...field}
+              />
+            )}
+          />
+          <S.SendButton aria-label="Send Message" type="submit">
             <Send />
           </S.SendButton>
         </S.ChatroomInputContainer>

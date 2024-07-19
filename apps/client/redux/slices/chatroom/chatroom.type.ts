@@ -1,12 +1,5 @@
+import { MessageModel } from "../message";
 import { UserModel } from "../user";
-
-export interface MessageModel {
-  id: string;
-  content: string;
-  user: UserModel;
-  isDeleted: boolean;
-  createdAt: string;
-}
 
 export interface ChatroomModel {
   id: string;

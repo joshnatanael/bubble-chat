@@ -35,10 +35,13 @@ export class MessagesController {
 
   @Post('')
   @UseGuards(RefreshTokenAuthorizationGuard)
-  createMessage(@CurrentUser() user: User, @Body() body: CreateMessageBodyDto) {
-    const messages = this.messagesService.createMessage(user.id, body);
+  async createMessage(
+    @CurrentUser() user: User,
+    @Body() body: CreateMessageBodyDto,
+  ) {
+    const message = await this.messagesService.createMessage(user.id, body);
 
-    return messages;
+    return { message };
   }
 
   @Delete('/:messageId')
