@@ -21,16 +21,16 @@ export class MessagesController {
 
   @Get('/:chatroomId')
   @UseGuards(RefreshTokenAuthorizationGuard)
-  getChatroomMessages(
+  async getChatroomMessages(
     @CurrentUser() user: User,
     @Param() params: GetChatroomMessagesParamDto,
   ) {
-    const messages = this.messagesService.getChatroomMessages(
+    const messages = await this.messagesService.getChatroomMessages(
       user.id,
       params.chatroomId,
     );
 
-    return messages;
+    return { messages };
   }
 
   @Post('')
