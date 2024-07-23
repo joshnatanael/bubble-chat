@@ -3,10 +3,17 @@ import { useSelector } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useFetchChatroomDetailsQuery } from "@/redux/services";
+import {
+  useFetchChatroomDetailsQuery,
+  useFetchMessagesByChatroomIdQuery,
+} from "@/redux/services";
 import { useToast } from "@/lib/hooks";
 import { parseRtkError } from "@/lib/utils";
-import { selectSelectedChatroom } from "@/redux/slices";
+import {
+  selectAuthenticatedUser,
+  selectChatroomMessages,
+  selectSelectedChatroom,
+} from "@/redux/slices";
 import useChatroomContentRedux from "./use-chatroom-content-redux";
 
 const SendMessageSchema = yup.object().shape({
@@ -24,8 +31,14 @@ const useChatroomContentLogic = (chatroomId?: string) => {
   const openChatroomOptions = Boolean(anchorElChatroomOptions);
   const { showToast } = useToast();
   const chatroom = useSelector(selectSelectedChatroom);
+  const messages = useSelector(selectChatroomMessages);
+  const user = useSelector(selectAuthenticatedUser);
   const reduxState = useFetchChatroomDetailsQuery(
     { chatroomId },
+    { skip: !chatroomId },
+  );
+  const fetchMessageState = useFetchMessagesByChatroomIdQuery(
+    { chatroomId: chatroomId || "" },
     { skip: !chatroomId },
   );
 
@@ -57,9 +70,21 @@ const useChatroomContentLogic = (chatroomId?: string) => {
     }
   }, [sendMessageState.isError]);
 
+  useEffect(() => {
+    if (fetchMessageState.isError && fetchMessageState.error) {
+      showToast(parseRtkError(fetchMessageState.error));
+    }
+  }, [fetchMessageState.isError]);
+
   return {
     form,
-    state: { openChatroomOptions, anchorElChatroomOptions, chatroom },
+    state: {
+      openChatroomOptions,
+      anchorElChatroomOptions,
+      chatroom,
+      messages,
+      user,
+    },
     handler: {
       handleCloseChatroomOptions,
       handleClickChatroomOptions,

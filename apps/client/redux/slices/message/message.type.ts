@@ -7,3 +7,7 @@ export interface MessageModel {
   isDeleted: boolean;
   createdAt: string;
 }
+
+export interface MessageState {
+  messages: MessageModel[];
+}

@@ -1,5 +1,5 @@
 export interface BubbleProps {
   content: string;
-  time: string;
+  time?: string;
   isUserMessage: boolean;
 }

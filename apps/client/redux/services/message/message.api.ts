@@ -17,7 +17,17 @@ export const messageApi = createApi({
         },
       }),
     }),
+    fetchMessagesByChatroomId: builder.query<
+      T.FetchMessagesByChatroomIdRes,
+      T.FetchMessagesByChatroomIdArgs
+    >({
+      query: ({ chatroomId }) => ({
+        url: `${API_BASE}/messages/${chatroomId}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useSendMessageMutation } = messageApi;
+export const { useSendMessageMutation, useFetchMessagesByChatroomIdQuery } =
+  messageApi;

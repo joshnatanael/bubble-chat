@@ -9,13 +9,20 @@ import { Controller } from "react-hook-form";
 import { ChatroomContentProps } from "./chatroom-content.type";
 import * as S from "./chatroom-content.style";
 import useChatroomContentLogic from "./use-chatroom-content-logic";
+import { getTimeMessageFormat } from "@/lib/utils";
 
 const ChatroomContent: React.FC<ChatroomContentProps> = (props) => {
   const { chatroomId } = props;
 
   const {
     form,
-    state: { openChatroomOptions, anchorElChatroomOptions, chatroom },
+    state: {
+      openChatroomOptions,
+      anchorElChatroomOptions,
+      chatroom,
+      messages,
+      user,
+    },
     handler: {
       handleCloseChatroomOptions,
       handleClickChatroomOptions,
@@ -88,8 +95,14 @@ const ChatroomContent: React.FC<ChatroomContentProps> = (props) => {
         </S.Header>
 
         <S.MessagesContainer>
-          <Bubble content="Test" isUserMessage time="2:10pm" />
-          <Bubble content="Test" isUserMessage={false} time="2:10pm" />
+          {messages.map((message) => (
+            <Bubble
+              content={message.content}
+              isUserMessage={message?.user?.id === user?.id}
+              key={message.id}
+              time={getTimeMessageFormat(message)}
+            />
+          ))}
           <Box sx={{ height: "200vh" }} />
         </S.MessagesContainer>
 

@@ -10,3 +10,13 @@ export interface SendMessageArgs {
 export interface SendMessageRes {
   message: MessageModel;
 }
+
+// ========================== FETCH MESSAGES BY CHATROOM ID ==========================
+
+export interface FetchMessagesByChatroomIdArgs {
+  chatroomId: string;
+}
+
+export interface FetchMessagesByChatroomIdRes {
+  messages: MessageModel[];
+}
