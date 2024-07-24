@@ -9,7 +9,7 @@ import { Controller } from "react-hook-form";
 import { ChatroomContentProps } from "./chatroom-content.type";
 import * as S from "./chatroom-content.style";
 import useChatroomContentLogic from "./use-chatroom-content-logic";
-import { getTimeMessageFormat } from "@/lib/utils";
+import { getTimeMessageFormat, getUserName } from "@/lib/utils";
 
 const ChatroomContent: React.FC<ChatroomContentProps> = (props) => {
   const { chatroomId } = props;
@@ -98,9 +98,10 @@ const ChatroomContent: React.FC<ChatroomContentProps> = (props) => {
           {messages.map((message) => (
             <Bubble
               content={message.content}
-              isUserMessage={message?.user?.id === user?.id}
+              isUserMessage={message?.userId === user?.id}
               key={message.id}
               time={getTimeMessageFormat(message)}
+              user={getUserName(message.user)}
             />
           ))}
           <Box sx={{ height: "200vh" }} />

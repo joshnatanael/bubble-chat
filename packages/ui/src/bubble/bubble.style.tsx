@@ -1,8 +1,21 @@
-import { Box, styled } from "@mui/material";
+import { Box, styled, Typography } from "@mui/material";
 import { BubbleProps } from "./bubble.type";
 
 export const BubbleRoot = styled(Box, {
   name: "BubbleRoot",
+  shouldForwardProp: (props) => props !== "isUserMessage",
+})<Pick<BubbleProps, "isUserMessage">>(({ isUserMessage }) => ({
+  display: "flex",
+  alignItems: "flex-start",
+  marginBottom: 12,
+
+  ...(isUserMessage && {
+    justifyContent: "flex-end",
+  }),
+}));
+
+export const MessageContainer = styled(Box, {
+  name: "MessageContainer",
   shouldForwardProp: (props) => props !== "isUserMessage",
 })<Pick<BubbleProps, "isUserMessage">>(({ theme, isUserMessage }) => ({
   padding: "8px 16px",
@@ -21,6 +34,13 @@ export const BubbleRoot = styled(Box, {
         border: `1px solid ${theme.palette.grey[50]}`,
       }),
 }));
+
+export const UserText = styled(Typography, { name: "UserText" })(
+  ({ theme }) => ({
+    fontWeight: theme.typography.fontWeightBold,
+    color: theme.palette.yellow[700],
+  }),
+);
 
 export const TimeText = styled("span", { name: "TimeText" })(({ theme }) => ({
   marginLeft: 16,

@@ -68,6 +68,8 @@ export const MessagesContainer = styled(Box, {
   padding: 24,
   flexGrow: 1,
   overflowY: "scroll",
+  display: "flex",
+  flexDirection: "column",
 }));
 
 export const ChatroomInputContainer = styled(Box, {
@@ -102,6 +104,10 @@ export const SendButton = styled(IconButton, {
 })(({ theme }) => ({
   backgroundColor: theme.palette.common.white,
   color: theme.palette.primary.main,
+
+  "&:hover": {
+    backgroundColor: theme.palette.grey[100],
+  },
 }));
 
 export const NoChatroomSelectedSection = styled(Box, {

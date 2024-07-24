@@ -3,12 +3,15 @@ import * as S from "./bubble.style";
 import { BubbleProps } from "./bubble.type";
 
 const Bubble: React.FC<BubbleProps> = (props) => {
-  const { content, isUserMessage, time, ...otherProps } = props;
+  const { content, isUserMessage, time, user, ...otherProps } = props;
 
   return (
     <S.BubbleRoot isUserMessage={isUserMessage} {...otherProps}>
-      {content}
-      <S.TimeText>{time}</S.TimeText>
+      <S.MessageContainer isUserMessage={isUserMessage}>
+        <S.UserText>{user}</S.UserText>
+        {content}
+        <S.TimeText>{time}</S.TimeText>
+      </S.MessageContainer>
     </S.BubbleRoot>
   );
 };
