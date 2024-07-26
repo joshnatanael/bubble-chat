@@ -5,6 +5,7 @@ import { ChatroomsService } from '../chatrooms/chatrooms.service';
 import { User } from '../users/users.model';
 import { CreateMessageBodyDto } from './dtos/create-message';
 import { Attributes, FindOptions } from 'sequelize';
+import { pusherServer, toPusherKey } from 'src/utils';
 
 @Injectable()
 export class MessagesService {
@@ -66,11 +67,19 @@ export class MessagesService {
       },
     });
 
-    return this.messagesRepository.create({
+    const message = await this.messagesRepository.create({
       ...body,
       userId,
       chatroomId: chatroom.id,
     });
+
+    pusherServer.trigger(
+      toPusherKey(`chat:${body.chatroomId}`),
+      'incomming-message',
+      { ...message.dataValues, user: chatroom.users[0], userId },
+    );
+
+    return message;
   }
 
   async deleteMessage(userId: string, messageId: string): Promise<Message> {

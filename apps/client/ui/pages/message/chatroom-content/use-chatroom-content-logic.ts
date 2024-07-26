@@ -8,10 +8,10 @@ import {
   useFetchMessagesByChatroomIdQuery,
 } from "@/redux/services";
 import { useToast } from "@/lib/hooks";
-import { parseRtkError } from "@/lib/utils";
+import { parseRtkError, pusherClient, toPusherKey } from "@/lib/utils";
 import {
+  MessageModel,
   selectAuthenticatedUser,
-  selectChatroomMessages,
   selectSelectedChatroom,
 } from "@/redux/slices";
 import useChatroomContentRedux from "./use-chatroom-content-redux";
@@ -31,7 +31,6 @@ const useChatroomContentLogic = (chatroomId?: string) => {
   const openChatroomOptions = Boolean(anchorElChatroomOptions);
   const { showToast } = useToast();
   const chatroom = useSelector(selectSelectedChatroom);
-  const messages = useSelector(selectChatroomMessages);
   const user = useSelector(selectAuthenticatedUser);
   const reduxState = useFetchChatroomDetailsQuery(
     { chatroomId },
@@ -41,6 +40,8 @@ const useChatroomContentLogic = (chatroomId?: string) => {
     { chatroomId: chatroomId || "" },
     { skip: !chatroomId, refetchOnMountOrArgChange: true },
   );
+
+  const [messages, setMessages] = useState<MessageModel[]>([]);
 
   const form = useForm({
     mode: "onSubmit",
@@ -75,6 +76,27 @@ const useChatroomContentLogic = (chatroomId?: string) => {
       showToast(parseRtkError(fetchMessageState.error));
     }
   }, [fetchMessageState.isError]);
+
+  useEffect(() => {
+    pusherClient.subscribe(toPusherKey(`chat:${chatroomId}`));
+
+    const messageHandler = (message: MessageModel) => {
+      setMessages((prev) => [...prev, message]);
+    };
+
+    pusherClient.bind("incomming-message", messageHandler);
+
+    return () => {
+      pusherClient.unsubscribe(toPusherKey(`chat:${chatroomId}`));
+
+      pusherClient.unbind("incomming-message", messageHandler);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (fetchMessageState.data?.messages)
+      setMessages(fetchMessageState.data?.messages);
+  }, [fetchMessageState.data?.messages]);
 
   return {
     form,

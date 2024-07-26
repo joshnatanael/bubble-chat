@@ -9,7 +9,13 @@ const initialState: MessageState = {
 const messageSlice = createSlice({
   name: "message",
   initialState,
-  reducers: {},
+  reducers: {
+    setMessages(state, action) {
+      const { messages } = action.payload;
+
+      state.messages = messages;
+    },
+  },
   extraReducers: (builder) => {
     builder.addMatcher(
       messageApi.endpoints.fetchMessagesByChatroomId.matchFulfilled,
@@ -21,5 +27,7 @@ const messageSlice = createSlice({
     );
   },
 });
+
+export const { setMessages } = messageSlice.actions;
 
 export const messageReducer = messageSlice.reducer;
