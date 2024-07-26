@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize-typescript';
+import sequelizeConfig from 'src/config/sequelize.config';
 import { Chatroom } from 'src/modules/chatrooms/chatrooms.model';
 import { Message } from 'src/modules/messages/messages.model';
 import { Relation } from 'src/modules/relations/relations.model';
@@ -10,14 +11,7 @@ export const databaseProviders = [
   {
     provide: 'SEQUELIZE',
     useFactory: async () => {
-      const sequelize = new Sequelize({
-        dialect: 'mysql',
-        host: 'localhost',
-        port: 3306,
-        username: 'root',
-        password: 'password',
-        database: 'bubble_chat',
-      });
+      const sequelize = new Sequelize(sequelizeConfig);
       sequelize.addModels([
         UserChatroom,
         User,

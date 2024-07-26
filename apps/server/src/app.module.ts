@@ -15,6 +15,7 @@ import { UserChatroomsModule } from './modules/user-chatrooms/user-chatrooms.mod
 import { MessagesModule } from './modules/messages/messages.module';
 import { UserRelationsModule } from './modules/user-relations/user-relations.module';
 import { RelationsModule } from './modules/relations/relations.module';
+import { databaseConfig } from './config/database.config';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { RelationsModule } from './modules/relations/relations.module';
       envFilePath: process.env.NODE_ENV
         ? `.env.${process.env.NODE_ENV}`
         : `.env`,
-      load: [commonConfig, authConfig],
+      load: [commonConfig, authConfig, databaseConfig],
     }),
     DatabaseModule,
     SequelizeModule.forRoot({
