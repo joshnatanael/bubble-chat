@@ -120,10 +120,11 @@ const ChatroomContent: React.FC<ChatroomContentProps> = (props) => {
           <Controller
             control={control}
             name="content"
-            render={({ field }) => (
+            render={({ field: { ref, ...field } }) => (
               <S.StyledInput
                 autoComplete="off"
                 fullWidth
+                inputRef={ref}
                 placeholder="Type a message"
                 {...field}
               />

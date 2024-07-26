@@ -45,6 +45,7 @@ const useChatroomContentLogic = (chatroomId?: string) => {
 
   const form = useForm({
     mode: "onSubmit",
+    defaultValues: { content: "" },
     resolver: yupResolver(SendMessageSchema),
   });
 
@@ -70,6 +71,13 @@ const useChatroomContentLogic = (chatroomId?: string) => {
       showToast(parseRtkError(sendMessageState.error));
     }
   }, [sendMessageState.isError]);
+
+  useEffect(() => {
+    if (sendMessageState.isSuccess) {
+      form.setFocus("content");
+      form.reset(undefined);
+    }
+  }, [sendMessageState.isSuccess, form.reset, form.setFocus]);
 
   useEffect(() => {
     if (fetchMessageState.isError && fetchMessageState.error) {
