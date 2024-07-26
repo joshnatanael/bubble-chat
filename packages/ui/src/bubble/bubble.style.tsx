@@ -1,16 +1,17 @@
 import { Box, styled, Typography } from "@mui/material";
 import { BubbleProps } from "./bubble.type";
+import { Avatar } from "../avatar";
 
 export const BubbleRoot = styled(Box, {
   name: "BubbleRoot",
   shouldForwardProp: (props) => props !== "isUserMessage",
 })<Pick<BubbleProps, "isUserMessage">>(({ isUserMessage }) => ({
   display: "flex",
-  alignItems: "flex-start",
   marginBottom: 12,
+  gap: 10,
 
   ...(isUserMessage && {
-    justifyContent: "flex-end",
+    flexDirection: "row-reverse",
   }),
 }));
 
@@ -25,11 +26,11 @@ export const MessageContainer = styled(Box, {
 
   ...(isUserMessage
     ? {
-        borderBottomRightRadius: 0,
+        borderTopRightRadius: 0,
         backgroundColor: theme.palette.blue[50],
       }
     : {
-        borderBottomLeftRadius: 0,
+        borderTopLeftRadius: 0,
         backgroundColor: theme.palette.common.white,
         border: `1px solid ${theme.palette.grey[50]}`,
       }),
@@ -41,6 +42,15 @@ export const UserText = styled(Typography, { name: "UserText" })(
     color: theme.palette.yellow[700],
   }),
 );
+
+export const StyledAvatar = styled(Avatar, {
+  name: "StyledAvatar",
+  shouldForwardProp: (props) => props !== "isSameUser",
+})<Pick<BubbleProps, "isSameUser">>(({ isSameUser }) => ({
+  ...(isSameUser && {
+    visibility: "hidden",
+  }),
+}));
 
 export const TimeText = styled("span", { name: "TimeText" })(({ theme }) => ({
   marginLeft: 16,

@@ -95,15 +95,21 @@ const ChatroomContent: React.FC<ChatroomContentProps> = (props) => {
         </S.Header>
 
         <S.MessagesContainer>
-          {messages.map((message) => (
-            <Bubble
-              content={message.content}
-              isUserMessage={message?.userId === user?.id}
-              key={message.id}
-              time={getTimeMessageFormat(message)}
-              user={getUserName(message.user)}
-            />
-          ))}
+          {messages.map((message, index) => {
+            const hasNextMessageFromSameUser =
+              messages[index - 1]?.userId === messages[index].userId;
+
+            return (
+              <Bubble
+                content={message.content}
+                isSameUser={hasNextMessageFromSameUser}
+                isUserMessage={message?.userId === user?.id}
+                key={message.id}
+                time={getTimeMessageFormat(message)}
+                user={getUserName(message.user)}
+              />
+            );
+          })}
           <Box sx={{ height: "200vh" }} />
         </S.MessagesContainer>
 

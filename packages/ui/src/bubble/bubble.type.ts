@@ -3,4 +3,5 @@ export interface BubbleProps {
   time?: string;
   isUserMessage: boolean;
   user: string;
+  isSameUser?: boolean;
 }

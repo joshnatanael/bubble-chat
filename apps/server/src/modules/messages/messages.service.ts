@@ -29,7 +29,7 @@ export class MessagesService {
 
     return this.messagesRepository.getAllByCondition({
       where: { chatroomId: chatroom.id },
-      order: [['createdAt', 'DESC']],
+      order: [['createdAt', 'ASC']],
       include: {
         model: User,
         attributes: ['firstName', 'lastName', 'email'],

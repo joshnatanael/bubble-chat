@@ -35,11 +35,11 @@ const useChatroomContentLogic = (chatroomId?: string) => {
   const user = useSelector(selectAuthenticatedUser);
   const reduxState = useFetchChatroomDetailsQuery(
     { chatroomId },
-    { skip: !chatroomId },
+    { skip: !chatroomId, refetchOnMountOrArgChange: true },
   );
   const fetchMessageState = useFetchMessagesByChatroomIdQuery(
     { chatroomId: chatroomId || "" },
-    { skip: !chatroomId },
+    { skip: !chatroomId, refetchOnMountOrArgChange: true },
   );
 
   const form = useForm({
