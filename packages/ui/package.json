@@ -6,6 +6,7 @@
     "./avatar": "./src/avatar/index.ts",
     "./button": "./src/button/index.ts",
     "./chatroom-card": "./src/chatroom-card/index.ts",
+    "./notification-toast": "./src/notification-toast/index.ts",
     "./bubble": "./src/bubble/index.ts",
     "./popover-menu": "./src/popover-menu/index.ts",
     "./render-if": "./src/render-if/index.ts",
@@ -35,6 +36,7 @@
     "@mui/icons-material": "^5.15.21",
     "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.15.21",
-    "@mui/material-nextjs": "^5.15.11"
+    "@mui/material-nextjs": "^5.15.11",
+    "next": "^14.1.1"
   }
 }
