@@ -25,6 +25,9 @@ const useMessageMainLogic = () => {
   const { showToast } = useToast();
 
   const [unseenMessages, setUnseenMessages] = useState<MessageModel[]>([]);
+  const [openNotificationToast, setOpenNotificationToast] = useState(false);
+  const [notificationContent, setNotificationContent] =
+    useState<MessageModel | null>(null);
   const [anchorElSettings, setAnchorElSettings] = useState<null | HTMLElement>(
     null,
   );
@@ -41,9 +44,12 @@ const useMessageMainLogic = () => {
     router.push("/logout");
   };
 
-  const handleClickChatroom = (chatroomId: string) => {
+  const handleClickChatroom = (chatroomId?: string) => {
+    if (!chatroomId) return;
     router.push(`/messages/${chatroomId}`);
   };
+
+  const handleCloseNotification = () => setOpenNotificationToast(false);
 
   useEffect(() => {
     if (reduxState.isError && reduxState.error) {
@@ -58,6 +64,9 @@ const useMessageMainLogic = () => {
       const shouldNotify = pathname !== `/messages/${message.chatroomId}`;
 
       if (!shouldNotify) return;
+
+      setOpenNotificationToast(true);
+      setNotificationContent(message);
 
       setUnseenMessages((prev) => [...prev, message]);
     };
@@ -78,12 +87,15 @@ const useMessageMainLogic = () => {
       anchorElSettings,
       chatrooms,
       unseenMessages,
+      openNotificationToast,
+      notificationContent,
     },
     handler: {
       handleLogout,
       handleClickSettings,
       handleCloseSettings,
       handleClickChatroom,
+      handleCloseNotification,
     },
   };
 };

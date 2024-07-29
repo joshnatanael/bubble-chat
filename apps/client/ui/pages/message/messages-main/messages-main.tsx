@@ -9,9 +9,14 @@ import {
 } from "@mui/icons-material";
 import { ChatroomCard } from "@repo/ui/chatroom-card";
 import { Avatar } from "@repo/ui/avatar";
+import { NotificationToast } from "@repo/ui/notification-toast";
 import * as S from "./messages-main.style";
 import useMessageMainLogic from "./use-message-main-logic";
-import { getLastMessageFormat, getTimeMessageFormat } from "@/lib/utils";
+import {
+  getLastMessageFormat,
+  getTimeMessageFormat,
+  getUserName,
+} from "@/lib/utils";
 import { MessagesMainProps } from "./messages-main.type";
 import { ChatroomContent } from "../chatroom-content";
 
@@ -25,12 +30,15 @@ const MessagesMain: React.FC<MessagesMainProps> = (props) => {
       anchorElSettings,
       chatrooms,
       unseenMessages,
+      openNotificationToast,
+      notificationContent,
     },
     handler: {
       handleLogout,
       handleClickSettings,
       handleCloseSettings,
       handleClickChatroom,
+      handleCloseNotification,
     },
   } = useMessageMainLogic();
 
@@ -95,6 +103,15 @@ const MessagesMain: React.FC<MessagesMainProps> = (props) => {
       <S.RightSection>
         <ChatroomContent chatroomId={chatroomId} />
       </S.RightSection>
+
+      <NotificationToast
+        messageContent={notificationContent?.content}
+        open={openNotificationToast}
+        senderImg={notificationContent?.user?.picture}
+        senderName={getUserName(notificationContent?.user)}
+        onClick={() => handleClickChatroom(notificationContent?.chatroomId)}
+        onClose={handleCloseNotification}
+      />
     </S.MessagesMainRoot>
   );
 };
