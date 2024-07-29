@@ -3,9 +3,18 @@ import React from "react";
 import * as S from "./chatroom-card.style";
 import { ChatroomCardProps } from "./chatroom-card.type";
 import { Avatar } from "../avatar";
+import { RenderIf } from "../render-if";
 
 const ChatroomCard: React.FC<ChatroomCardProps> = (props) => {
-  const { message, name, time, users, onClick, ...otherProps } = props;
+  const {
+    message,
+    name,
+    time,
+    users,
+    unseenMessagesCount,
+    onClick,
+    ...otherProps
+  } = props;
 
   return (
     <S.ChatroomCardRoot onClick={onClick} {...otherProps}>
@@ -15,12 +24,21 @@ const ChatroomCard: React.FC<ChatroomCardProps> = (props) => {
         ))}
       </AvatarGroup>
       <S.TextContainer>
-        <S.NameTimeContainer>
+        <S.FlexContainer>
           <S.ChatroomNameText>{name}</S.ChatroomNameText>
           <S.TimeText>{time}</S.TimeText>
-        </S.NameTimeContainer>
+        </S.FlexContainer>
 
-        <Typography>{message}</Typography>
+        <S.FlexContainer>
+          <Typography>{message}</Typography>
+          <RenderIf isTrue={!!unseenMessagesCount}>
+            <S.UnseenCountBox>
+              <S.UnseenCountText variant="body2">
+                {unseenMessagesCount}
+              </S.UnseenCountText>
+            </S.UnseenCountBox>
+          </RenderIf>
+        </S.FlexContainer>
       </S.TextContainer>
     </S.ChatroomCardRoot>
   );

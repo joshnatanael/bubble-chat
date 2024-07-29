@@ -19,7 +19,13 @@ const MessagesMain: React.FC<MessagesMainProps> = (props) => {
   const { chatroomId, ...otherProps } = props;
 
   const {
-    state: { username, openOptions, anchorElSettings, chatrooms },
+    state: {
+      username,
+      openOptions,
+      anchorElSettings,
+      chatrooms,
+      unseenMessages,
+    },
     handler: {
       handleLogout,
       handleClickSettings,
@@ -65,16 +71,23 @@ const MessagesMain: React.FC<MessagesMainProps> = (props) => {
         </S.Header>
         <S.ChatroomContainer>
           <Box sx={{ height: "200vh" }}>
-            {chatrooms.map((chatroom) => (
-              <ChatroomCard
-                key={chatroom.id}
-                message={getLastMessageFormat(chatroom.messages?.[0])}
-                name={chatroom.name || chatroom.alternativeName}
-                time={getTimeMessageFormat(chatroom.messages?.[0])}
-                users={chatroom.alternativeName?.split(", ") || []}
-                onClick={() => handleClickChatroom(chatroom.id)}
-              />
-            ))}
+            {chatrooms.map((chatroom) => {
+              const unseenMessagesCount = unseenMessages.filter((unseenMsg) => {
+                return unseenMsg.chatroomId === chatroom.id;
+              }).length;
+
+              return (
+                <ChatroomCard
+                  key={chatroom.id}
+                  message={getLastMessageFormat(chatroom.messages?.[0])}
+                  name={chatroom.name || chatroom.alternativeName}
+                  time={getTimeMessageFormat(chatroom.messages?.[0])}
+                  unseenMessagesCount={unseenMessagesCount}
+                  users={chatroom.alternativeName?.split(", ") || []}
+                  onClick={() => handleClickChatroom(chatroom.id)}
+                />
+              );
+            })}
           </Box>
         </S.ChatroomContainer>
       </S.LeftSection>

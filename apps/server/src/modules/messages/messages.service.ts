@@ -79,6 +79,21 @@ export class MessagesService {
       { ...message.dataValues, user: chatroom.users[0], userId },
     );
 
+    const users = await chatroom.getUsers();
+
+    users.forEach((user) => {
+      pusherServer.trigger(
+        toPusherKey(`user:${user.id}:chats`),
+        'new_message',
+        {
+          ...message.dataValues,
+          user: chatroom.users[0],
+          userId,
+          chatroomId: body.chatroomId,
+        },
+      );
+    });
+
     return message;
   }
 

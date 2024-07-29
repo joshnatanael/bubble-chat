@@ -3,5 +3,6 @@ export interface ChatroomCardProps {
   users: string[];
   time?: string;
   message?: string;
+  unseenMessagesCount?: number;
   onClick?: () => void;
 }

@@ -7,6 +7,7 @@ export interface MessageModel {
   user?: UserModel;
   isDeleted: boolean;
   createdAt: string;
+  chatroomId: string;
 }
 
 export interface MessageState {
