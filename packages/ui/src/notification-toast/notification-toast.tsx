@@ -1,4 +1,4 @@
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import { AlertTitle } from "@mui/material";
 import {
   NotificationToastProps,
@@ -36,18 +36,25 @@ const NotificationToast: React.FC<NotificationToastProps> = (props) => {
     ...otherProps
   } = props;
 
+  const handleCloseNotification = (event: SyntheticEvent<Element, Event>) => {
+    event.stopPropagation();
+    onClose();
+  };
+
   return (
     <S.NotificationToastRoot
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      autoHideDuration={6000}
       open={open}
       onClick={onClick}
-      onClose={onClose}
       {...otherProps}
     >
       <S.NotificationAlert
-        icon={<SenderIcon senderImg={senderImg} senderName={senderName} />}
+        icon={
+          <SenderIcon senderImg={senderImg} senderName={senderName || ""} />
+        }
         severity="info"
-        onClose={onClose}
+        onClose={handleCloseNotification}
       >
         <AlertTitle>{senderName}</AlertTitle>
         {messageContent}

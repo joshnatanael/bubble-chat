@@ -1,7 +1,7 @@
 export interface NotificationToastProps {
-  senderName: string;
+  senderName?: string;
   senderImg?: string;
-  messageContent: string;
+  messageContent?: string;
   open: boolean;
   onClose: () => void;
   onClick: () => void;
