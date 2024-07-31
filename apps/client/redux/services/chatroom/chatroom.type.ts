@@ -26,3 +26,9 @@ export interface NormalizedFetchChatroomDetailsRes {
   users?: Record<string, UserModel>;
   chatrooms?: Record<string, ChatroomModel>;
 }
+
+// ========================== LEAVE CHATROOM ==========================
+
+export interface LeaveChatroomArgs {
+  chatroomId: string;
+}

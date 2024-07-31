@@ -8,6 +8,7 @@ import { RequestErrorReturn } from "@/redux/store";
 export const mapErrorCode = {
   EmailExisted: "emailExisted",
   UsernameExisted: "usernameExisted",
+  NotFoundByCondition: "notFoundByCondition",
 };
 
 export const parseRtkError = (

@@ -10,6 +10,7 @@ import { ChatroomContentProps } from "./chatroom-content.type";
 import * as S from "./chatroom-content.style";
 import useChatroomContentLogic from "./use-chatroom-content-logic";
 import { getTimeMessageFormat, getUserName } from "@/lib/utils";
+import { LeaveChatroomDialog } from "../leave-chatroom-dialog";
 
 const ChatroomContent: React.FC<ChatroomContentProps> = (props) => {
   const { chatroomId } = props;
@@ -22,12 +23,14 @@ const ChatroomContent: React.FC<ChatroomContentProps> = (props) => {
       chatroom,
       messages,
       user,
+      openLeaveDialog,
     },
     handler: {
       handleCloseChatroomOptions,
       handleClickChatroomOptions,
-      handleLeaveChatroom,
       handleSendMessage,
+      handleOpenLeaveDialog,
+      handleCloseLeaveDialog,
     },
   } = useChatroomContentLogic(chatroomId);
   const { handleSubmit, control } = form;
@@ -85,7 +88,7 @@ const ChatroomContent: React.FC<ChatroomContentProps> = (props) => {
               open={openChatroomOptions}
               onClose={handleCloseChatroomOptions}
             >
-              <S.PopoverMenuItem role="link" onClick={handleLeaveChatroom}>
+              <S.PopoverMenuItem role="link" onClick={handleOpenLeaveDialog}>
                 <S.LeaveText color="error" variant="body1">
                   Leave Chatroom
                 </S.LeaveText>
@@ -134,6 +137,12 @@ const ChatroomContent: React.FC<ChatroomContentProps> = (props) => {
             <Send />
           </S.SendButton>
         </S.ChatroomInputContainer>
+
+        <LeaveChatroomDialog
+          chatroomId={chatroomId || ""}
+          open={openLeaveDialog}
+          onClose={handleCloseLeaveDialog}
+        />
       </RenderIf>
     </>
   );

@@ -33,6 +33,14 @@ const chatroomSlice = createSlice({
 
           state.selectedChatroomId = chatroomId;
         },
+      )
+      .addMatcher(
+        chatroomApi.endpoints.leaveChatroom.matchFulfilled,
+        (state, action) => {
+          const { chatroomId } = action.meta.arg.originalArgs;
+
+          chatroomAdapter.removeOne(state, chatroomId);
+        },
       );
   },
 });

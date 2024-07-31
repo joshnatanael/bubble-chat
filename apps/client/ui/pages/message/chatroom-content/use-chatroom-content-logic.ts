@@ -42,6 +42,7 @@ const useChatroomContentLogic = (chatroomId?: string) => {
   );
 
   const [messages, setMessages] = useState<MessageModel[]>([]);
+  const [openLeaveDialog, setOpenLeaveDialog] = useState(false);
 
   const form = useForm({
     mode: "onSubmit",
@@ -55,10 +56,11 @@ const useChatroomContentLogic = (chatroomId?: string) => {
     setAnchorElChatroomOptions(event.currentTarget);
   };
   const handleCloseChatroomOptions = () => setAnchorElChatroomOptions(null);
-  const handleLeaveChatroom = () => {};
   const handleSendMessage: SubmitHandler<SendMessageFormModel> = (data) => {
     onSendMessage(data);
   };
+  const handleOpenLeaveDialog = () => setOpenLeaveDialog(true);
+  const handleCloseLeaveDialog = () => setOpenLeaveDialog(false);
 
   useEffect(() => {
     if (reduxState.isError && reduxState.error) {
@@ -115,12 +117,14 @@ const useChatroomContentLogic = (chatroomId?: string) => {
       chatroom,
       messages,
       user,
+      openLeaveDialog,
     },
     handler: {
       handleCloseChatroomOptions,
       handleClickChatroomOptions,
-      handleLeaveChatroom,
       handleSendMessage,
+      handleOpenLeaveDialog,
+      handleCloseLeaveDialog,
     },
   };
 };

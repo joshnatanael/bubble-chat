@@ -30,8 +30,17 @@ export const chatroomApi = createApi({
         return normalize(response.chatroom || {}, chatroomEntity).entities;
       },
     }),
+    leaveChatroom: builder.mutation<unknown, T.LeaveChatroomArgs>({
+      query: ({ chatroomId }) => ({
+        url: `${API_BASE}/chatrooms/${chatroomId}/leave`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-export const { useFetchChatroomsQuery, useFetchChatroomDetailsQuery } =
-  chatroomApi;
+export const {
+  useFetchChatroomsQuery,
+  useFetchChatroomDetailsQuery,
+  useLeaveChatroomMutation,
+} = chatroomApi;
