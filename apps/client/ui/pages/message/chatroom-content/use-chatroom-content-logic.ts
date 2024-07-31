@@ -89,7 +89,7 @@ const useChatroomContentLogic = (chatroomId?: string) => {
     pusherClient.subscribe(toPusherKey(`chat:${chatroomId}`));
 
     const messageHandler = (message: MessageModel) => {
-      setMessages((prev) => [...prev, message]);
+      setMessages((prev) => [message, ...prev]);
     };
 
     pusherClient.bind("incomming-message", messageHandler);
@@ -102,8 +102,9 @@ const useChatroomContentLogic = (chatroomId?: string) => {
   }, []);
 
   useEffect(() => {
-    if (fetchMessageState.data?.messages)
-      setMessages(fetchMessageState.data?.messages);
+    if (Array.isArray(fetchMessageState.data?.messages)) {
+      setMessages([...fetchMessageState.data.messages].reverse());
+    }
   }, [fetchMessageState.data?.messages]);
 
   return {

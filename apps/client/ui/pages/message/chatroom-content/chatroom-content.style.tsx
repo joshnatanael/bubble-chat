@@ -69,7 +69,7 @@ export const MessagesContainer = styled(Box, {
   flexGrow: 1,
   overflowY: "scroll",
   display: "flex",
-  flexDirection: "column",
+  flexDirection: "column-reverse",
 }));
 
 export const ChatroomInputContainer = styled(Box, {
